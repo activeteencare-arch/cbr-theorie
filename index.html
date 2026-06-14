@@ -1040,19 +1040,19 @@ const QUESTIONS = [
 // CATEGORIES
 // ============================================================
 const CATEGORIES = [
-  { id:"Voorrang",        icon:"ð¦", color:"#ef4444" },
-  { id:"Snelheid",        icon:"â¡", color:"#f59e0b" },
-  { id:"Verkeersborden",  icon:"ð", color:"#3b82f6" },
-  { id:"Inhalen",         icon:"ðï¸", color:"#8b5cf6" },
-  { id:"Lichten",         icon:"ð¡", color:"#06b6d4" },
-  { id:"Afstand",         icon:"ð", color:"#10b981" },
-  { id:"Alcohol & Drugs", icon:"ð«", color:"#dc2626" },
-  { id:"Parkeren",        icon:"ð¿ï¸", color:"#6366f1" },
-  { id:"Rijbaan",         icon:"ð£ï¸", color:"#0891b2" },
-  { id:"Milieu",          icon:"ð¿", color:"#16a34a" },
-  { id:"Voertuig",        icon:"ð§", color:"#d97706" },
-  { id:"Gevaarherkenning",icon:"â ï¸", color:"#b45309" },
-  { id:"Regels",          icon:"ð", color:"#7c3aed" },
+  { id:"Voorrang",        icon:"🚦", color:"#ef4444" },
+  { id:"Snelheid",        icon:"⚡", color:"#f59e0b" },
+  { id:"Verkeersborden",  icon:"🛑", color:"#3b82f6" },
+  { id:"Inhalen",         icon:"🏎️", color:"#8b5cf6" },
+  { id:"Lichten",         icon:"💡", color:"#06b6d4" },
+  { id:"Afstand",         icon:"📏", color:"#10b981" },
+  { id:"Alcohol & Drugs", icon:"🚫", color:"#dc2626" },
+  { id:"Parkeren",        icon:"🅿️", color:"#6366f1" },
+  { id:"Rijbaan",         icon:"🛣️", color:"#0891b2" },
+  { id:"Milieu",          icon:"🌿", color:"#16a34a" },
+  { id:"Voertuig",        icon:"🔧", color:"#d97706" },
+  { id:"Gevaarherkenning",icon:"⚠️", color:"#b45309" },
+  { id:"Regels",          icon:"📋", color:"#7c3aed" },
 ];
 
 // ============================================================
@@ -1094,8 +1094,8 @@ function renderHome() {
         <div class="cat-progress"><div class="cat-progress-fill" style="width:${pct}%;background:linear-gradient(90deg,${cat.color}88,${cat.color})"></div></div>
       </div>
       <div class="cat-btns">
-        <button class="cat-btn-learn" onclick="event.stopPropagation();showTheory('${cat.id}')">ð Leer</button>
-        <button class="cat-btn-quiz" onclick="event.stopPropagation();startCategory('${cat.id}')">â¶ Oefen</button>
+        <button class="cat-btn-learn" onclick="event.stopPropagation();showTheory('${cat.id}')">📖 Leer</button>
+        <button class="cat-btn-quiz" onclick="event.stopPropagation();startCategory('${cat.id}')">▶ Oefen</button>
       </div>`;
     grid.appendChild(card);
   });
@@ -1114,13 +1114,13 @@ function showTheory(catId) {
   document.getElementById("theoryContent").innerHTML = `
     <div class="theory-svg-wrap">${t.svg}</div>
     <div style="display:flex;gap:8px;margin-bottom:12px;">
-      <button class="tts-btn" onclick="speakTheory('${catId}',this)">ð Lees voor</button>
+      <button class="tts-btn" onclick="speakTheory('${catId}',this)">🔊 Lees voor</button>
       <a href="${ytUrl}" target="_blank" style="flex:1;text-decoration:none;">
-        <button class="yt-btn" style="margin:0;width:100%;">â¶ YouTube uitleg</button>
+        <button class="yt-btn" style="margin:0;width:100%;">▶ YouTube uitleg</button>
       </a>
     </div>
     <div class="theory-rules">${rulesHtml}</div>
-    <button class="start-quiz-btn" onclick="startCategory('${catId}')">â¶ Start oefenvragen</button>`;
+    <button class="start-quiz-btn" onclick="startCategory('${catId}')">▶ Start oefenvragen</button>`;
   showScreen("theoryScreen");
 }
 
@@ -1159,7 +1159,7 @@ function showQuestion() {
   const pct = (sess.current / total) * 100;
   document.getElementById("quizProgressFill").style.width = pct + "%";
   document.getElementById("quizCounter").textContent = `Vraag ${sess.current + 1} van ${total}`;
-  document.getElementById("streakBadge").textContent = `ð¥ ${sess.streak}`;
+  document.getElementById("streakBadge").textContent = `🔥 ${sess.streak}`;
   document.getElementById("questionCat").textContent = q.cat;
   document.getElementById("questionText").textContent = q.q;
   const svgWrap = document.getElementById("questionSvg");
@@ -1187,7 +1187,7 @@ function selectAnswer(idx, btn) {
   allBtns[q.correct].classList.add("correct");
   if (!isCorrect) btn.classList.add("wrong");
   const fb = document.getElementById("feedbackCard");
-  const icon = isCorrect ? "â" : "â";
+  const icon = isCorrect ? "✅" : "❌";
   const prefix = isCorrect ? "<strong>Goed!</strong> " : "<strong>Fout.</strong> ";
   document.getElementById("feedbackText").innerHTML = icon + " " + prefix + q.explain;
   fb.className = "feedback-card " + (isCorrect ? "correct" : "wrong");
@@ -1211,7 +1211,7 @@ function selectAnswer(idx, btn) {
   if (sess.streak > state.maxStreak) state.maxStreak = sess.streak;
   fb.style.display = "block";
   document.getElementById("nextBtn").style.display = "block";
-  document.getElementById("streakBadge").textContent = `ð¥ ${sess.streak}`;
+  document.getElementById("streakBadge").textContent = `🔥 ${sess.streak}`;
   saveState();
 }
 function nextQuestion() {
@@ -1229,12 +1229,12 @@ function finishSession() {
   state.xp += sess.xpEarned + (pass ? 50 : 0);
   document.getElementById("xpDisplay").textContent = state.xp;
   showScreen("resultsScreen");
-  document.getElementById("resultsIcon").textContent = pass ? (pct === 100 ? "ð" : "ð") : "ð";
+  document.getElementById("resultsIcon").textContent = pass ? (pct === 100 ? "🏆" : "🎉") : "📚";
   const titleEl = document.getElementById("resultsTitle");
   titleEl.textContent = pass ? "GESLAAGD!" : "Nog niet klaar";
   titleEl.className = "results-title " + (pass ? "pass" : "fail");
   document.getElementById("resultsSub").textContent = sess.isExam
-    ? (pass ? `${sess.correct}/65 goed â je haalt je CBR-examen!` : `${sess.correct}/65 goed â je hebt minimaal 50 nodig.`)
+    ? (pass ? `${sess.correct}/65 goed — je haalt je CBR-examen!` : `${sess.correct}/65 goed — je hebt minimaal 50 nodig.`)
     : `${pct}% goed in ${sess.cat}`;
   const offset = 345 - (pct / 100) * 345;
   setTimeout(() => { document.getElementById("ringCircle").style.strokeDashoffset = offset; }, 100);
@@ -1243,7 +1243,7 @@ function finishSession() {
   document.getElementById("resWrong").textContent = sess.wrong;
   document.getElementById("resXP").textContent = sess.xpEarned + (pass ? "+50" : "");
   document.getElementById("resStreak").textContent = sess.maxStreak;
-  document.getElementById("retryBtn").textContent = sess.isExam ? "ð¯ Nieuw examen" : `ð ${sess.cat} opnieuw`;
+  document.getElementById("retryBtn").textContent = sess.isExam ? "🎯 Nieuw examen" : `🔄 ${sess.cat} opnieuw`;
   saveState();
 }
 function retrySession() { if (state.session.isExam) startExam(); else startCategory(state.session.cat); }
