@@ -184,17 +184,17 @@ const backBtn = document.getElementById('backBtn');
 let stack = [];
 
 /* ---- voortgang (Supabase + lokale cache) ---- */
-let P = { gelezen:[], examens:[] };
+let P = { gelezen:[], examens:[], gedaan:{} };
 let saveTimer=null;
 function cacheKey(){ return 'cbr_v1_'+(user?user.id:'anon'); }
-function cacheLoad(){ try{ const c=JSON.parse(localStorage.getItem(cacheKey())); if(c){ c.gelezen=c.gelezen||[]; c.examens=c.examens||[]; return c; } }catch(e){} return { gelezen:[], examens:[] }; }
+function cacheLoad(){ try{ const c=JSON.parse(localStorage.getItem(cacheKey())); if(c){ c.gelezen=c.gelezen||[]; c.examens=c.examens||[]; c.gedaan=c.gedaan||{}; return c; } }catch(e){} return { gelezen:[], examens:[], gedaan:{} }; }
 async function loadProgress(){
   try{
     const q = sb.from('voortgang').select('data').eq('user_id',user.id).maybeSingle();
     const to = new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),4000));
     const {data,error} = await Promise.race([q,to]);
     if(!error && data && data.data){
-      P = data.data; P.gelezen=P.gelezen||[]; P.examens=P.examens||[];
+      P = data.data; P.gelezen=P.gelezen||[]; P.examens=P.examens||[]; P.gedaan=P.gedaan||{};
       try{ localStorage.setItem(cacheKey(), JSON.stringify(P)); }catch(e){}
       if(typeof stack!=='undefined' && stack[stack.length-1]===home) render();
     }
@@ -284,12 +284,25 @@ function leerHoofdstuk(i){
 }
 
 const TYPELABEL={mc:'Meerkeuze',janee:'Ja of nee',multi:'Meerdere goed',invul:'Invullen'};
+function qid(q){ let h=0,s=q.vraag||''; for(let i=0;i<s.length;i++){ h=(Math.imul(h,31)+s.charCodeAt(i))|0; } return h>>>0; }
+function oefenCount(list){ P.gedaan=P.gedaan||{}; return list.filter(q=>P.gedaan[qid(q)]).length; }
+function startOefen(list,titel){
+  P.gedaan=P.gedaan||{};
+  const niet=list.filter(q=>!P.gedaan[qid(q)]);
+  let pool;
+  if(niet.length){ pool=shuffle(niet); }
+  else { list.forEach(q=>{ delete P.gedaan[qid(q)]; }); saveP(); pool=shuffle(list); }
+  quiz(pool,titel);
+}
+function resetOefen(){ if(!confirm('Je oefenvoortgang wissen en opnieuw beginnen? Je gelezen hoofdstukken en examens blijven gewoon staan.')) return; P.gedaan={}; saveP(); oefenLijst(); }
 function oefenLijst(){
   const cats=[...new Set(VRAGEN.map(q=>q.onderwerp))];
-  app.innerHTML = `<div class="sec-title"><span class="label">Oefenen</span><span class="cnt">${VRAGEN.length} vragen</span></div>` +
-   `<button class="row" onclick="go(()=>quiz(shuffle(VRAGEN),'Alle onderwerpen'))"><span class="idx"><i class="ti ti-stack-2"></i></span><span class="ttl">Alle onderwerpen door elkaar</span><i class="ti ti-chevron-right chev"></i></button>
+  const totG=oefenCount(VRAGEN);
+  app.innerHTML = `<div class="sec-title"><span class="label">Oefenen</span><span class="cnt">${totG}/${VRAGEN.length} gedaan</span></div>` +
+   `<button class="row" onclick="go(()=>startOefen(VRAGEN,'Alle onderwerpen'))"><span class="idx"><i class="ti ti-stack-2"></i></span><span class="ttl">Alle onderwerpen door elkaar</span><span class="dim" style="font-size:12px;margin-left:auto">${totG}/${VRAGEN.length}</span><i class="ti ti-chevron-right chev"></i></button>
     <div style="height:8px"></div>` +
-   cats.map(c=>{const n=VRAGEN.filter(q=>q.onderwerp===c).length;const cj=JSON.stringify(c).replace(/"/g,'&quot;');return `<button class="row" onclick="go(()=>quiz(shuffle(VRAGEN.filter(q=>q.onderwerp===${cj})), ${cj}))"><span class="ttl">${esc(c)}</span><span class="dim" style="font-size:12px">${n}</span><i class="ti ti-chevron-right chev"></i></button>`}).join('');
+   cats.map(c=>{const lijst=VRAGEN.filter(q=>q.onderwerp===c);const g=oefenCount(lijst);const cj=JSON.stringify(c).replace(/"/g,'&quot;');return `<button class="row" onclick="go(()=>startOefen(VRAGEN.filter(q=>q.onderwerp===${cj}), ${cj}))"><span class="ttl">${esc(c)}</span><span class="dim" style="font-size:12px">${g}/${lijst.length}</span><i class="ti ti-chevron-right chev"></i></button>`}).join('') +
+   `<button class="pbtn ghost" style="margin-top:16px" onclick="resetOefen()"><i class="ti ti-refresh"></i> Begin opnieuw, wis oefenvoortgang</button>`;
 }
 
 /* gedeelde vraagweergave voor alle vraagvormen */
@@ -339,7 +352,8 @@ function answer(given){
   if(Q.answered)return; Q.answered=true;
   const q=Q.list[Q.i]; const cb=document.getElementById('checkbtn'); if(cb)cb.remove();
   markQ(q,given); const ok=evalQ(q,given);
-  if(!ok){ P.fouten=P.fouten||{}; P.fouten[q.onderwerp]=(P.fouten[q.onderwerp]||0)+1; saveP(); }
+  if(!ok){ P.fouten=P.fouten||{}; P.fouten[q.onderwerp]=(P.fouten[q.onderwerp]||0)+1; }
+  P.gedaan=P.gedaan||{}; P.gedaan[qid(q)]=1; saveP();
   document.getElementById('fbslot').innerHTML=fbBlock(q,ok)
    +`<button class="tbtn lesbtn" style="margin-bottom:11px" onclick="oefenCoach(${JSON.stringify(q.vraag).replace(/"/g,'&quot;')}, ${JSON.stringify(q.uitleg).replace(/"/g,'&quot;')}, this)"><i class="ti ti-player-play"></i> Start de uitleg</button>`
    +`<button class="pbtn" onclick="nextQ()">${Q.i<Q.list.length-1?'Volgende vraag':'Klaar'}</button>`;
@@ -540,9 +554,12 @@ function voortgangSamenvatting(){
   const niet=LEERSTOF.filter(h=>!P.gelezen.includes(h.hoofdstuk)).map(h=>h.titel);
   const last=P.examens[P.examens.length-1];
   const ex=last?`${last.score} van ${last.total} goed (${last.score>=PASS?'geslaagd':'nog niet geslaagd'})`:'nog geen oefenexamen gedaan';
-  const zwak=Object.entries(P.fouten||{}).sort((a,b)=>b[1]-a[1]).slice(0,3).map(e=>e[0]);
+  const foutE=Object.entries(P.fouten||{}).sort((a,b)=>b[1]-a[1]);
+  const zwak=foutE.slice(0,3).map(e=>`${e[0]} (${e[1]} keer fout)`);
+  const herhaald=foutE.filter(e=>e[1]>=3).map(e=>e[0]);
+  const gedaanN=Object.keys(P.gedaan||{}).length;
   const besproken=(P.besproken&&P.besproken.length)?P.besproken.join(', '):'nog niets';
-  return `Liam heeft ${gelezenN} van de ${totaal} hoofdstukken gelezen: ${gelezenT}. Nog te lezen: ${niet.join(', ')||'alles gelezen'}. Laatste oefenexamen: ${ex}. Onderwerpen waar hij de meeste fouten maakt: ${zwak.length?zwak.join(', '):'nog niet bekend'}. Eerder met jou (de coach) besproken: ${besproken}.`;
+  return `Liam heeft ${gelezenN} van de ${totaal} hoofdstukken gelezen: ${gelezenT}. Nog te lezen: ${niet.join(', ')||'alles gelezen'}. Hij heeft ${gedaanN} oefenvragen gemaakt. Laatste oefenexamen: ${ex}. Onderwerpen met de meeste fouten: ${zwak.length?zwak.join(', '):'nog niet bekend'}.${herhaald.length?` Let op: op ${herhaald.join(' en ')} gaat hij herhaaldelijk de fout in. Stuur hem terug naar het bijbehorende hoofdstuk in het theorieboek voordat hij verder oefent.`:''} Eerder met jou (de coach) besproken: ${besproken}.`;
 }
 async function stopCoach(){
   if(coachConv){ try{await coachConv.endSession()}catch(e){} }
