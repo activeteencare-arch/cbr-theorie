@@ -429,7 +429,7 @@ function toggleCoach(){
 function lesToggle(kop, tekst, kern, btn){
   if(coachConv){ stopCoach(); return; }
   const kernTxt = (Array.isArray(kern)&&kern.length) ? ` Even de kern op een rij. ${kern.join('. ')}.` : '';
-  const opening = `${kop}. ${tekst}${kernTxt} Heb je hier vragen over, of zal ik je er een controlevraag over stellen?`;
+  const opening = `${kop}. ${tekst}${kernTxt} Nu een korte controlevraag, zodat we zeker weten dat het blijft hangen. Vertel eens in je eigen woorden terug wat je hier net van hebt opgepikt.`;
   startCoach(opening, kop, (state)=>lesBtnUI(btn, state));
 }
 function lesBtnUI(btn, state){
