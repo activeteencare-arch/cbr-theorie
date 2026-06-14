@@ -324,7 +324,7 @@ function fbBlock(q,ok){ return `<div class="fb ${ok?'ok':'no'}"><div class="h"><
 let Q={};
 function quiz(list,titel){ Q={list,titel,i:0,answered:false}; quizStep(); }
 function quizStep(){
-  const q=Q.list[Q.i]; backBtn.style.display='none';
+  const q=Q.list[Q.i]; backBtn.style.display='flex';
   app.innerHTML = `
    <div class="q-meta"><span>${esc(Q.titel)}</span><span>${Q.i+1} / ${Q.list.length}</span></div>
    <div class="qbar"><i style="width:${(Q.i)/Q.list.length*100}%"></i></div>
