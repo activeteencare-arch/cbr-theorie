@@ -6,510 +6,195 @@
   <title>CBR Theorie Trainer</title>
   <style>
     :root {
-      --bg: #0d0d1a;
-      --bg2: #13132a;
-      --bg3: #1a1a35;
-      --accent: #7c3aed;
-      --accent2: #a855f7;
-      --green: #22c55e;
-      --red: #ef4444;
-      --yellow: #f59e0b;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --border: #2d2d5e;
-      --card: #1e1e3f;
+      --bg: #0d0d1a; --bg2: #13132a; --bg3: #1a1a35;
+      --accent: #7c3aed; --accent2: #a855f7;
+      --green: #22c55e; --red: #ef4444; --yellow: #f59e0b;
+      --text: #f1f5f9; --muted: #94a3b8; --border: #2d2d5e; --card: #1e1e3f;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      max-width: 480px;
-      margin: 0 auto;
-      position: relative;
-      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; max-width: 480px; margin: 0 auto;
+      position: relative; overflow-x: hidden;
     }
-
-    /* ===== HEADER ===== */
     .header {
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 12px 16px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
     }
-    .header-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--accent2);
-      letter-spacing: 0.5px;
-    }
+    .header-title { font-size: 16px; font-weight: 700; color: var(--accent2); letter-spacing: 0.5px; }
     .xp-badge {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--yellow);
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 20px; padding: 4px 12px; font-size: 13px;
+      font-weight: 600; color: var(--yellow);
     }
-
-    /* ===== SCREENS ===== */
     .screen { display: none; padding: 16px; min-height: calc(100vh - 57px); }
     .screen.active { display: block; }
-
-    /* ===== HOME ===== */
-    .hero {
-      text-align: center;
-      padding: 32px 0 24px;
-    }
-    .hero-icon {
-      font-size: 64px;
-      line-height: 1;
-      margin-bottom: 12px;
-    }
+    .hero { text-align: center; padding: 28px 0 20px; }
+    .hero-icon { font-size: 56px; line-height: 1; margin-bottom: 10px; }
     .hero h1 {
-      font-size: 26px;
-      font-weight: 800;
+      font-size: 24px; font-weight: 800;
       background: linear-gradient(135deg, #a855f7, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 6px;
     }
-    .hero p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 8px;
-      text-align: center;
-    }
-    .stat-num {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--accent2);
-    }
-    .stat-label {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .section-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-
-    /* ===== CATEGORY CARDS ===== */
-    .category-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+    .hero p { color: var(--muted); font-size: 14px; }
+    .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 8px; text-align: center; }
+    .stat-num { font-size: 22px; font-weight: 800; color: var(--accent2); }
+    .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .section-title { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .category-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
     .cat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 12px 14px; display: flex; align-items: center; gap: 12px;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; overflow: hidden;
     }
     .cat-card:active { transform: scale(0.98); }
     .cat-card:hover { border-color: var(--accent2); background: var(--bg3); }
-    .cat-icon { font-size: 30px; flex-shrink: 0; }
+    .cat-icon { font-size: 28px; flex-shrink: 0; }
     .cat-info { flex: 1; }
-    .cat-name {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-    .cat-sub {
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .cat-progress {
-      width: 100%;
-      height: 4px;
-      background: var(--bg3);
-      border-radius: 4px;
-      margin-top: 8px;
-      overflow: hidden;
-    }
-    .cat-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 4px;
-      transition: width 0.5s ease;
-    }
-    .cat-arrow {
-      color: var(--muted);
-      font-size: 18px;
-    }
-
-    .exam-btn {
-      width: 100%;
+    .cat-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .cat-sub { font-size: 11px; color: var(--muted); }
+    .cat-progress { width: 100%; height: 4px; background: var(--bg3); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+    .cat-progress-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+    .cat-btns { display: flex; gap: 6px; flex-shrink: 0; }
+    .cat-btn-learn {
       background: linear-gradient(135deg, var(--accent), #2563eb);
-      border: none;
-      border-radius: 14px;
-      padding: 16px;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 8px;
-      transition: opacity 0.2s;
+      border: none; border-radius: 8px; padding: 6px 10px;
+      color: white; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .cat-btn-quiz {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 6px 10px; color: var(--text);
+      font-size: 11px; font-weight: 600; cursor: pointer;
+    }
+    .exam-btn {
+      width: 100%; background: linear-gradient(135deg, var(--accent), #2563eb);
+      border: none; border-radius: 14px; padding: 16px; color: white;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 8px; transition: opacity 0.2s;
     }
     .exam-btn:active { opacity: 0.85; }
 
-    /* ===== QUIZ SCREEN ===== */
-    .quiz-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
+    /* ===== THEORY SCREEN ===== */
+    .theory-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
     .back-btn {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--text);
-      font-size: 18px;
-      flex-shrink: 0;
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--text); font-size: 18px; flex-shrink: 0;
     }
+    .theory-cat-title { font-size: 20px; font-weight: 800; flex: 1; }
+    .theory-svg-wrap {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 16px; margin-bottom: 16px;
+      display: flex; justify-content: center;
+    }
+    .theory-rules { margin-bottom: 16px; }
+    .theory-rule {
+      background: var(--bg3); border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0; padding: 10px 14px;
+      margin-bottom: 8px; font-size: 14px; line-height: 1.5;
+    }
+    .theory-rule strong { color: var(--accent2); }
+    .tts-btn {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
+      padding: 8px 14px; color: var(--yellow); font-size: 14px; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: background 0.2s;
+    }
+    .tts-btn:active { background: var(--bg2); }
+    .yt-btn {
+      width: 100%; background: #cc0000; border: none; border-radius: 12px;
+      padding: 12px; color: white; font-size: 14px; font-weight: 700;
+      cursor: pointer; margin-bottom: 10px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .theory-action-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .start-quiz-btn {
+      flex: 1; background: linear-gradient(135deg, var(--accent), #2563eb);
+      border: none; border-radius: 12px; padding: 14px;
+      color: white; font-size: 15px; font-weight: 700; cursor: pointer;
+    }
+
+    /* ===== QUIZ SCREEN ===== */
+    .quiz-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .quiz-progress-wrap { flex: 1; }
-    .quiz-progress-bar {
-      width: 100%;
-      height: 6px;
-      background: var(--bg3);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    .quiz-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      border-radius: 6px;
-      transition: width 0.4s ease;
-    }
-    .quiz-counter {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-    .streak-badge {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 4px 10px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--yellow);
-      flex-shrink: 0;
-    }
-
-    .question-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-    .question-category {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent2);
-      margin-bottom: 10px;
-    }
-    .question-text {
-      font-size: 17px;
-      font-weight: 600;
-      line-height: 1.45;
-      color: var(--text);
-    }
-
-    .options { display: flex; flex-direction: column; gap: 10px; }
+    .quiz-progress-bar { width: 100%; height: 6px; background: var(--bg3); border-radius: 6px; overflow: hidden; }
+    .quiz-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 6px; transition: width 0.4s ease; }
+    .quiz-counter { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .streak-badge { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 10px; font-size: 13px; font-weight: 700; color: var(--yellow); flex-shrink: 0; }
+    .timer-wrap { display: none; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--yellow); padding: 6px 12px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+    .timer-wrap.exam-mode { display: flex; }
+    .question-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 14px; }
+    .question-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+    .question-category { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent2); }
+    .q-tts-btn { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 4px 8px; color: var(--yellow); font-size: 13px; cursor: pointer; flex-shrink: 0; }
+    .question-text { font-size: 16px; font-weight: 600; line-height: 1.45; color: var(--text); }
+    .question-svg { margin-top: 12px; display: flex; justify-content: center; }
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
     .option-btn {
-      background: var(--bg3);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      text-align: left;
-      cursor: pointer;
-      font-size: 15px;
-      color: var(--text);
-      transition: border-color 0.15s, background 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      position: relative;
-      overflow: hidden;
+      background: var(--bg3); border: 1.5px solid var(--border); border-radius: 12px;
+      padding: 13px 15px; text-align: left; cursor: pointer; font-size: 14px;
+      color: var(--text); transition: border-color 0.15s, background 0.15s;
+      display: flex; align-items: center; gap: 12px; position: relative;
     }
     .option-btn:active { transform: scale(0.99); }
     .option-letter {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 13px;
-      flex-shrink: 0;
-      color: var(--muted);
+      width: 27px; height: 27px; border-radius: 7px; background: var(--bg2);
+      border: 1px solid var(--border); display: flex; align-items: center;
+      justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; color: var(--muted);
     }
-    .option-btn.correct {
-      border-color: var(--green);
-      background: rgba(34, 197, 94, 0.1);
-    }
-    .option-btn.correct .option-letter {
-      background: var(--green);
-      color: white;
-      border-color: var(--green);
-    }
-    .option-btn.wrong {
-      border-color: var(--red);
-      background: rgba(239, 68, 68, 0.1);
-    }
-    .option-btn.wrong .option-letter {
-      background: var(--red);
-      color: white;
-      border-color: var(--red);
-    }
+    .option-btn.correct { border-color: var(--green); background: rgba(34,197,94,0.1); }
+    .option-btn.correct .option-letter { background: var(--green); color: white; border-color: var(--green); }
+    .option-btn.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); }
+    .option-btn.wrong .option-letter { background: var(--red); color: white; border-color: var(--red); }
     .option-btn:disabled { cursor: default; }
-
-    .feedback-card {
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      display: none;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .feedback-card.correct {
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      color: #86efac;
-    }
-    .feedback-card.wrong {
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
-    }
-    .feedback-icon { font-size: 18px; margin-bottom: 4px; }
-
-    .next-btn {
-      width: 100%;
-      background: var(--accent);
-      border: none;
-      border-radius: 12px;
-      padding: 15px;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      display: none;
-      transition: opacity 0.2s;
-    }
+    .feedback-card { border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; display: none; font-size: 14px; line-height: 1.5; }
+    .feedback-card.correct { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
+    .feedback-card.wrong { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+    .feedback-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .next-btn { width: 100%; background: var(--accent); border: none; border-radius: 12px; padding: 14px; color: white; font-size: 15px; font-weight: 700; cursor: pointer; display: none; transition: opacity 0.2s; }
     .next-btn:active { opacity: 0.85; }
 
-    /* ===== TIMER ===== */
-    .timer-wrap {
-      display: none;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--yellow);
-      padding: 6px 12px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-    }
-    .timer-wrap.exam-mode { display: flex; }
-
     /* ===== RESULTS ===== */
-    .results-hero {
-      text-align: center;
-      padding: 32px 0 24px;
-    }
-    .results-icon { font-size: 72px; line-height: 1; margin-bottom: 12px; }
-    .results-title {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
+    .results-hero { text-align: center; padding: 28px 0 20px; }
+    .results-icon { font-size: 64px; line-height: 1; margin-bottom: 10px; }
+    .results-title { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
     .results-title.pass { color: var(--green); }
     .results-title.fail { color: var(--red); }
     .results-sub { color: var(--muted); font-size: 15px; }
-
-    .score-ring-wrap {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0;
-    }
-    .score-ring {
-      width: 140px;
-      height: 140px;
-      position: relative;
-    }
-    .score-ring svg {
-      transform: rotate(-90deg);
-    }
-    .score-ring-text {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .score-pct {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--text);
-    }
-    .score-pct-label {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .results-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-    .result-stat {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      text-align: center;
-    }
-    .result-stat-num {
-      font-size: 28px;
-      font-weight: 800;
-    }
+    .score-ring-wrap { display: flex; justify-content: center; margin: 16px 0; }
+    .score-ring { width: 130px; height: 130px; position: relative; }
+    .score-ring svg { transform: rotate(-90deg); }
+    .score-ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .score-pct { font-size: 30px; font-weight: 800; color: var(--text); }
+    .score-pct-label { font-size: 11px; color: var(--muted); }
+    .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .result-stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; }
+    .result-stat-num { font-size: 26px; font-weight: 800; }
     .result-stat-num.green { color: var(--green); }
     .result-stat-num.red { color: var(--red); }
     .result-stat-num.yellow { color: var(--yellow); }
-    .result-stat-label {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .action-btns {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .btn-primary {
-      width: 100%;
-      background: linear-gradient(135deg, var(--accent), #2563eb);
-      border: none;
-      border-radius: 12px;
-      padding: 15px;
-      color: white;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .btn-secondary {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      color: var(--text);
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+    .result-stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .action-btns { display: flex; flex-direction: column; gap: 10px; }
+    .btn-primary { width: 100%; background: linear-gradient(135deg, var(--accent), #2563eb); border: none; border-radius: 12px; padding: 15px; color: white; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .btn-secondary { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 13px; color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; }
 
     /* ===== ANIMATIONS ===== */
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     .slide-in { animation: slideIn 0.25s ease forwards; }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    .pulse { animation: pulse 0.3s ease; }
-
-    /* ===== XP TOAST ===== */
-    .xp-toast {
-      position: fixed;
-      top: 70px;
-      right: 16px;
-      background: var(--yellow);
-      color: #1a1a00;
-      font-weight: 800;
-      font-size: 14px;
-      border-radius: 20px;
-      padding: 6px 14px;
-      z-index: 999;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.2s, transform 0.2s;
-      pointer-events: none;
-    }
-    .xp-toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .xp-toast { position: fixed; top: 70px; right: 16px; background: var(--yellow); color: #1a1a00; font-weight: 800; font-size: 14px; border-radius: 20px; padding: 6px 14px; z-index: 999; opacity: 0; transform: translateY(-10px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+    .xp-toast.show { opacity: 1; transform: translateY(0); }
+    .tts-loading { color: var(--muted); }
   </style>
 </head>
 <body>
 
-<!-- XP Toast -->
 <div class="xp-toast" id="xpToast">+10 XP</div>
 
-<!-- Header -->
 <div class="header">
   <div class="header-title">🚗 CBR Trainer</div>
   <div style="display:flex;align-items:center;gap:8px;">
@@ -518,85 +203,76 @@
   </div>
 </div>
 
-<!-- ===== HOME ===== -->
+<!-- HOME -->
 <div class="screen active" id="homeScreen">
   <div class="hero">
     <div class="hero-icon">🏁</div>
     <h1>CBR Theorie Trainer</h1>
-    <p>Haal je rijbewijs. Level voor level.</p>
+    <p>Leer het. Snap het. Haal je rijbewijs.</p>
   </div>
-
   <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-num" id="statTotal">0</div>
-      <div class="stat-label">Gedaan</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="statCorrect" style="color:var(--green)">0</div>
-      <div class="stat-label">Goed</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="statStreak" style="color:var(--yellow)">0</div>
-      <div class="stat-label">Streak 🔥</div>
-    </div>
+    <div class="stat-card"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Gedaan</div></div>
+    <div class="stat-card"><div class="stat-num" id="statCorrect" style="color:var(--green)">0</div><div class="stat-label">Goed</div></div>
+    <div class="stat-card"><div class="stat-num" id="statStreak" style="color:var(--yellow)">0</div><div class="stat-label">Streak 🔥</div></div>
   </div>
-
-  <div class="section-title">Kies een categorie</div>
+  <div class="section-title">Kies een onderwerp</div>
   <div class="category-grid" id="categoryGrid"></div>
-
-  <button class="exam-btn" onclick="startExam()">
-    🎯 Oefenexamen (65 vragen)
-  </button>
+  <button class="exam-btn" onclick="startExam()">🎯 Oefenexamen (65 vragen)</button>
 </div>
 
-<!-- ===== QUIZ ===== -->
+<!-- THEORY -->
+<div class="screen" id="theoryScreen">
+  <div class="theory-header">
+    <div class="back-btn" onclick="goHome()">←</div>
+    <div class="theory-cat-title" id="theoryCatTitle"></div>
+  </div>
+  <div id="theoryContent"></div>
+</div>
+
+<!-- QUIZ -->
 <div class="screen" id="quizScreen">
   <div class="quiz-header">
     <div class="back-btn" onclick="goHome()">←</div>
     <div class="quiz-progress-wrap">
-      <div class="quiz-progress-bar">
-        <div class="quiz-progress-fill" id="quizProgressFill"></div>
-      </div>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
       <div class="quiz-counter" id="quizCounter">Vraag 1 van 10</div>
     </div>
     <div class="streak-badge" id="streakBadge">🔥 0</div>
   </div>
-
   <div class="question-card slide-in" id="questionCard">
-    <div class="question-category" id="questionCat"></div>
+    <div class="question-top">
+      <div class="question-category" id="questionCat"></div>
+      <button class="q-tts-btn" onclick="speakQuestion()" title="Lees voor">🔊</button>
+    </div>
     <div class="question-text" id="questionText"></div>
+    <div class="question-svg" id="questionSvg"></div>
   </div>
-
   <div class="options" id="optionsWrap"></div>
-
   <div class="feedback-card" id="feedbackCard">
-    <div class="feedback-icon" id="feedbackIcon"></div>
-    <div id="feedbackText"></div>
+    <div class="feedback-top">
+      <div id="feedbackText"></div>
+      <button class="q-tts-btn" onclick="speakFeedback()" title="Lees uitleg voor">🔊</button>
+    </div>
   </div>
-
   <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Volgende →</button>
 </div>
 
-<!-- ===== RESULTS ===== -->
+<!-- RESULTS -->
 <div class="screen" id="resultsScreen">
   <div class="results-hero">
     <div class="results-icon" id="resultsIcon"></div>
     <div class="results-title" id="resultsTitle"></div>
     <div class="results-sub" id="resultsSub"></div>
   </div>
-
   <div class="score-ring-wrap">
     <div class="score-ring">
-      <svg width="140" height="140" viewBox="0 0 140 140">
-        <circle cx="70" cy="70" r="60" fill="none" stroke="var(--bg3)" stroke-width="12"/>
-        <circle cx="70" cy="70" r="60" fill="none" stroke="url(#ringGrad)" stroke-width="12"
-          stroke-linecap="round" stroke-dasharray="377" stroke-dashoffset="377" id="ringCircle"/>
-        <defs>
-          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#7c3aed"/>
-            <stop offset="100%" stop-color="#22c55e"/>
-          </linearGradient>
-        </defs>
+      <svg width="130" height="130" viewBox="0 0 130 130">
+        <circle cx="65" cy="65" r="55" fill="none" stroke="var(--bg3)" stroke-width="12"/>
+        <circle cx="65" cy="65" r="55" fill="none" stroke="url(#rg)" stroke-width="12"
+          stroke-linecap="round" stroke-dasharray="345" stroke-dashoffset="345" id="ringCircle"/>
+        <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#22c55e"/>
+        </linearGradient></defs>
       </svg>
       <div class="score-ring-text">
         <div class="score-pct" id="scorePct">0%</div>
@@ -604,327 +280,746 @@
       </div>
     </div>
   </div>
-
   <div class="results-grid">
-    <div class="result-stat">
-      <div class="result-stat-num green" id="resCorrect">0</div>
-      <div class="result-stat-label">✅ Goed</div>
-    </div>
-    <div class="result-stat">
-      <div class="result-stat-num red" id="resWrong">0</div>
-      <div class="result-stat-label">❌ Fout</div>
-    </div>
-    <div class="result-stat">
-      <div class="result-stat-num yellow" id="resXP">0</div>
-      <div class="result-stat-label">⚡ XP verdiend</div>
-    </div>
-    <div class="result-stat">
-      <div class="result-stat-num" id="resStreak">0</div>
-      <div class="result-stat-label">🔥 Max streak</div>
-    </div>
+    <div class="result-stat"><div class="result-stat-num green" id="resCorrect">0</div><div class="result-stat-label">✅ Goed</div></div>
+    <div class="result-stat"><div class="result-stat-num red" id="resWrong">0</div><div class="result-stat-label">❌ Fout</div></div>
+    <div class="result-stat"><div class="result-stat-num yellow" id="resXP">0</div><div class="result-stat-label">⚡ XP</div></div>
+    <div class="result-stat"><div class="result-stat-num" id="resStreak">0</div><div class="result-stat-label">🔥 Streak</div></div>
   </div>
-
   <div class="action-btns">
     <button class="btn-primary" id="retryBtn" onclick="retrySession()">🔄 Opnieuw</button>
-    <button class="btn-secondary" onclick="goHome()">🏠 Terug naar menu</button>
+    <button class="btn-secondary" onclick="goHome()">🏠 Terug</button>
   </div>
 </div>
 
 <script>
 // ============================================================
-// VRAGENBANK
+// CONFIG
+// ============================================================
+const ELEVENLABS_KEY = 'sk_73c7d9049cedfa228dc8023e5f7f2952d6b5a085d035fae0';
+const ELEVENLABS_VOICE = 'pNInz6obpgDQGcFmaJgB';
+
+// ============================================================
+// TTS
+// ============================================================
+let currentAudio = null;
+async function speak(text, btnEl) {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  if (btnEl) { btnEl.textContent = '⏳'; btnEl.disabled = true; }
+  try {
+    const resp = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE}`, {
+      method: 'POST',
+      headers: { 'xi-api-key': ELEVENLABS_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, model_id: 'eleven_multilingual_v2', voice_settings: { stability: 0.5, similarity_boost: 0.75 } })
+    });
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    currentAudio = new Audio(url);
+    currentAudio.play();
+    currentAudio.onended = () => { URL.revokeObjectURL(url); currentAudio = null; };
+  } catch(e) { console.error('TTS error:', e); }
+  if (btnEl) { btnEl.textContent = '🔊'; btnEl.disabled = false; }
+}
+function speakQuestion() {
+  const q = state.session.questions[state.session.current];
+  if (q) speak(q.q + '. ' + q.opts.map((o,i) => String.fromCharCode(65+i) + ': ' + o).join('. '), event.currentTarget);
+}
+function speakFeedback() {
+  const el = document.getElementById('feedbackText');
+  if (el) speak(el.innerText, event.currentTarget);
+}
+function speakTheory(catId) {
+  const t = THEORY[catId];
+  if (!t) return;
+  const txt = t.title + '. ' + t.rules.join('. ');
+  speak(txt, event.currentTarget);
+}
+
+// ============================================================
+// THEORY DATA
+// ============================================================
+const THEORY = {
+  "Voorrang": {
+    title: "Voorrangsregels",
+    rules: [
+      "<strong>Rechts gaat voor</strong> — Op een gelijkwaardige kruising heeft het verkeer van rechts altijd voorrang.",
+      "<strong>Haaientanden</strong> — Driehoeken op het wegdek betekenen: jij verleent voorrang.",
+      "<strong>Voorrangsweg</strong> — Een gele ruitvorm geeft aan dat jij op een voorrangsweg rijdt en voorrang hebt.",
+      "<strong>Linksaf slaan</strong> — Als je linksaf slaat moet je tégenliggers die rechtdoor gaan laten gaan.",
+      "<strong>Voorrangsvoertuigen</strong> — Ambulances, brandweer en politie met sirene gaan altijd voor. Wijk naar rechts."
+    ],
+    ytSearch: "cbr theorie voorrang kruispunt nederland",
+    svg: `<svg width="240" height="200" viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="200" fill="#1a1a35"/>
+  <!-- Horizontale weg -->
+  <rect x="0" y="85" width="240" height="30" fill="#2d2d5e"/>
+  <line x1="0" y1="100" x2="100" y2="100" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,6"/>
+  <line x1="140" y1="100" x2="240" y2="100" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,6"/>
+  <!-- Verticale weg -->
+  <rect x="105" y="0" width="30" height="200" fill="#2d2d5e"/>
+  <line x1="120" y1="0" x2="120" y2="85" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,6"/>
+  <line x1="120" y1="115" x2="120" y2="200" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,6"/>
+  <!-- Haaientanden -->
+  <polygon points="105,115 120,130 135,115" fill="#ef4444" opacity="0.8"/>
+  <!-- Auto van rechts (heeft voorrang) -->
+  <rect x="155" y="88" width="32" height="14" rx="4" fill="#22c55e"/>
+  <rect x="159" y="90" width="10" height="8" rx="2" fill="#0d0d1a" opacity="0.6"/>
+  <rect x="173" y="90" width="10" height="8" rx="2" fill="#0d0d1a" opacity="0.6"/>
+  <!-- Pijl auto rechts -->
+  <path d="M 155 95 L 140 95" stroke="#22c55e" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+  <!-- Auto van onderen (moet wachten) -->
+  <rect x="113" y="140" width="14" height="28" rx="4" fill="#ef4444" opacity="0.8"/>
+  <rect x="115" y="145" width="10" height="8" rx="2" fill="#0d0d1a" opacity="0.6"/>
+  <!-- Pijl auto onderen (kleiner, gestopt) -->
+  <path d="M 120 140 L 120 125" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3" fill="none"/>
+  <!-- Labels -->
+  <text x="172" y="78" fill="#22c55e" font-size="10" font-family="sans-serif" font-weight="bold">VOORRANG</text>
+  <text x="100" y="175" fill="#ef4444" font-size="10" font-family="sans-serif" font-weight="bold">WACHT</text>
+  <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+    <path d="M0,0 L6,3 L0,6 Z" fill="#22c55e"/>
+  </marker></defs>
+</svg>`
+  },
+  "Snelheid": {
+    title: "Snelheidsregels",
+    rules: [
+      "<strong>Bebouwde kom</strong> — Standaard maximumsnelheid is 50 km/u, tenzij het bord anders aangeeft.",
+      "<strong>Buiten bebouwde kom</strong> — Op gewone wegen 80 km/u, op autowegen 100 km/u.",
+      "<strong>Autosnelweg</strong> — Maximaal 130 km/u. Overdag soms 100 of 120 km/u (digitale borden).",
+      "<strong>Aanpassen</strong> — Bij regen, mist, gladheid of drukte altijd je snelheid aanpassen.",
+      "<strong>Rode cirkel</strong> — Een getal in een rode cirkel is een verplicht maximum. Geen advies."
+    ],
+    ytSearch: "cbr theorie snelheid maximumsnelheid nederland",
+    svg: `<svg width="280" height="130" viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
+  <rect width="280" height="130" fill="#1a1a35"/>
+  <!-- Bord 30 -->
+  <circle cx="35" cy="65" r="28" fill="white" stroke="#ef4444" stroke-width="5"/>
+  <text x="35" y="72" fill="#0d0d1a" font-size="22" font-family="sans-serif" font-weight="bold" text-anchor="middle">30</text>
+  <text x="35" y="105" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">woonwijk</text>
+  <!-- Bord 50 -->
+  <circle cx="95" cy="65" r="28" fill="white" stroke="#ef4444" stroke-width="5"/>
+  <text x="95" y="72" fill="#0d0d1a" font-size="22" font-family="sans-serif" font-weight="bold" text-anchor="middle">50</text>
+  <text x="95" y="105" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">bebouwde kom</text>
+  <!-- Bord 80 -->
+  <circle cx="155" cy="65" r="28" fill="white" stroke="#ef4444" stroke-width="5"/>
+  <text x="155" y="72" fill="#0d0d1a" font-size="19" font-family="sans-serif" font-weight="bold" text-anchor="middle">80</text>
+  <text x="155" y="105" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">buiten kom</text>
+  <!-- Bord 130 -->
+  <circle cx="225" cy="65" r="28" fill="white" stroke="#ef4444" stroke-width="5"/>
+  <text x="225" y="72" fill="#0d0d1a" font-size="17" font-family="sans-serif" font-weight="bold" text-anchor="middle">130</text>
+  <text x="225" y="105" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">autosnelweg</text>
+  <!-- Pijl omhoog -->
+  <path d="M 35 20 L 95 20 L 155 20 L 225 20" stroke="#7c3aed" stroke-width="2" fill="none" stroke-dasharray="6,4"/>
+  <text x="130" y="16" fill="#7c3aed" font-size="10" text-anchor="middle" font-family="sans-serif">sneller →</text>
+</svg>`
+  },
+  "Verkeersborden": {
+    title: "Verkeersborden herkennen",
+    rules: [
+      "<strong>Rode driehoek</strong> — Waarschuwing. Let op gevaar verderop.",
+      "<strong>Rode cirkel</strong> — Verbod. Je mag iets NIET (te hard, verkeerde richting, etc.).",
+      "<strong>Blauwe cirkel</strong> — Gebod. Je MOET iets (richting houden, minimumsnelheid, etc.).",
+      "<strong>Gele ruit</strong> — Voorrangsweg. Jij hebt voorrang op kruisingen.",
+      "<strong>Blauw rechthoek</strong> — Informatie, aanwijzing (parkeerplaats, richting, etc.)."
+    ],
+    ytSearch: "cbr theorie verkeersborden uitleg nederland",
+    svg: `<svg width="280" height="140" viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+  <rect width="280" height="140" fill="#1a1a35"/>
+  <!-- Driehoek waarschuwing -->
+  <polygon points="34,30 5,85 63,85" fill="white" stroke="#ef4444" stroke-width="4"/>
+  <text x="34" y="72" fill="#0d0d1a" font-size="22" text-anchor="middle">!</text>
+  <text x="34" y="105" fill="#f59e0b" font-size="9" text-anchor="middle" font-family="sans-serif">waarschuwing</text>
+  <!-- Cirkel verbod -->
+  <circle cx="95" cy="60" r="28" fill="white" stroke="#ef4444" stroke-width="5"/>
+  <text x="95" y="67" fill="#0d0d1a" font-size="19" font-family="sans-serif" font-weight="bold" text-anchor="middle">50</text>
+  <text x="95" y="105" fill="#ef4444" font-size="9" text-anchor="middle" font-family="sans-serif">verbod</text>
+  <!-- Blauwe cirkel gebod -->
+  <circle cx="155" cy="60" r="28" fill="#2563eb"/>
+  <text x="155" y="67" fill="white" font-size="22" text-anchor="middle">↑</text>
+  <text x="155" y="105" fill="#60a5fa" font-size="9" text-anchor="middle" font-family="sans-serif">gebod</text>
+  <!-- Gele ruit voorrangsweg -->
+  <rect x="210" y="35" width="35" height="35" rx="3" fill="#f59e0b" transform="rotate(45 227 52)"/>
+  <text x="227" y="105" fill="#f59e0b" font-size="9" text-anchor="middle" font-family="sans-serif">voorrangsweg</text>
+  <!-- Labels boven -->
+  <text x="140" y="130" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">▲ = let op  ○ rood = verbod  ○ blauw = moet  ◇ geel = voorrang</text>
+</svg>`
+  },
+  "Inhalen": {
+    title: "Inhaalregels",
+    rules: [
+      "<strong>Links inhalen</strong> — Je mag alleen links inhalen, tenzij het voertuig voor je linksaf gaat.",
+      "<strong>Doorgetrokken streep</strong> — Bij een ononderbroken middenstreep mag je niet inhalen.",
+      "<strong>1,5 meter</strong> — Bij het inhalen van een fietser of bromfietser houd je minimaal 1,5 meter afstand.",
+      "<strong>Bocht en heuvel</strong> — Bij slecht zicht (bochten, heuvels) mag je niet inhalen.",
+      "<strong>Inhalend voertuig</strong> — Als iemand achter jou ook inhaalt: rustig je inhaalactie voltooien."
+    ],
+    ytSearch: "cbr theorie inhalen regels nederland",
+    svg: `<svg width="260" height="150" viewBox="0 0 260 150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="260" height="150" fill="#1a1a35"/>
+  <!-- Weg -->
+  <rect x="0" y="40" width="260" height="70" fill="#2d2d5e"/>
+  <!-- Middenstreep (onderbroken = inhalen mag) -->
+  <line x1="0" y1="75" x2="60" y2="75" stroke="#f1f5f9" stroke-width="2" stroke-dasharray="12,8"/>
+  <line x1="80" y1="75" x2="130" y2="75" stroke="#ef4444" stroke-width="3"/>
+  <line x1="130" y1="75" x2="180" y2="75" stroke="#ef4444" stroke-width="3"/>
+  <!-- Doorgetrokken = stoppen met inhalen -->
+  <text x="155" y="35" fill="#ef4444" font-size="10" text-anchor="middle" font-family="sans-serif">niet inhalen!</text>
+  <line x1="155" y1="38" x2="155" y2="75" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- Auto 1 (voorligger) -->
+  <rect x="90" y="78" width="36" height="16" rx="4" fill="#94a3b8"/>
+  <rect x="95" y="80" width="11" height="9" rx="2" fill="#0d0d1a" opacity="0.6"/>
+  <rect x="110" y="80" width="11" height="9" rx="2" fill="#0d0d1a" opacity="0.6"/>
+  <!-- Auto 2 (inhaalt) -->
+  <rect x="40" y="47" width="36" height="16" rx="4" fill="#22c55e"/>
+  <rect x="45" y="49" width="11" height="9" rx="2" fill="#0d0d1a" opacity="0.6"/>
+  <rect x="60" y="49" width="11" height="9" rx="2" fill="#0d0d1a" opacity="0.6"/>
+  <!-- Pijl inhalen -->
+  <path d="M 76 55 Q 85 55 85 78" stroke="#22c55e" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+  <!-- Afstand label -->
+  <line x1="76" y1="45" x2="76" y2="107" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="126" y1="45" x2="126" y2="107" stroke="#f59e0b" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="76" y1="107" x2="126" y2="107" stroke="#f59e0b" stroke-width="1"/>
+  <text x="101" y="120" fill="#f59e0b" font-size="10" text-anchor="middle" font-family="sans-serif">1,5 m min.</text>
+</svg>`
+  },
+  "Lichten": {
+    title: "Verlichting gebruiken",
+    rules: [
+      "<strong>Dimlichten altijd</strong> — Je moet dimlichten voeren zodra je rijdt, ook overdag.",
+      "<strong>Groot licht</strong> — Alleen als er geen tegenliggers of voorliggers zijn. Direct dimmen bij nadering.",
+      "<strong>Mistachterlicht</strong> — Alleen bij zicht korter dan 50 meter (dichte mist, sneeuw).",
+      "<strong>Knipperlichten</strong> — Altijd gebruiken bij afslaan, invoegen of van rijstrook wisselen.",
+      "<strong>Stadslichten</strong> — Op goed verlichte wegen in de bebouwde kom mag je stadslichten gebruiken."
+    ],
+    ytSearch: "cbr theorie verlichting dimlicht grootlicht nederland",
+    svg: `<svg width="260" height="130" viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+  <rect width="260" height="130" fill="#1a1a35"/>
+  <!-- Auto silhouet -->
+  <rect x="80" y="50" width="100" height="45" rx="8" fill="#2d2d5e" stroke="#7c3aed" stroke-width="1"/>
+  <rect x="95" y="38" width="70" height="25" rx="6" fill="#2d2d5e" stroke="#7c3aed" stroke-width="1"/>
+  <!-- Voorlichten links -->
+  <ellipse cx="83" cy="65" rx="8" ry="6" fill="#f59e0b" opacity="0.9"/>
+  <!-- Voorlichten rechts -->
+  <ellipse cx="177" cy="65" rx="8" ry="6" fill="#f59e0b" opacity="0.9"/>
+  <!-- Achterlichten links -->
+  <rect x="78" y="72" width="10" height="14" rx="3" fill="#ef4444" opacity="0.8"/>
+  <!-- Achterlichten rechts -->
+  <rect x="172" y="72" width="10" height="14" rx="3" fill="#ef4444" opacity="0.8"/>
+  <!-- Dimlichtstraal links -->
+  <path d="M 75 62 L 30 52 M 75 65 L 20 65 M 75 68 L 30 78" stroke="#f59e0b" stroke-width="1.5" opacity="0.6"/>
+  <!-- Label dimlicht -->
+  <text x="25" y="95" fill="#f59e0b" font-size="10" text-anchor="middle" font-family="sans-serif">💡 altijd aan</text>
+  <!-- Mistlicht -->
+  <rect x="165" y="88" width="14" height="7" rx="2" fill="#ef4444"/>
+  <text x="172" y="110" fill="#ef4444" font-size="9" text-anchor="middle" font-family="sans-serif">mist &lt;50m</text>
+  <!-- Knipperlichten -->
+  <rect x="78" y="57" width="8" height="8" rx="2" fill="#f97316" opacity="0.8"/>
+  <rect x="174" y="57" width="8" height="8" rx="2" fill="#f97316" opacity="0.8"/>
+  <text x="130" y="120" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">🟠 = knipperlicht (afslaan verplicht)</text>
+</svg>`
+  },
+  "Afstand": {
+    title: "Veilige volgafstand",
+    rules: [
+      "<strong>2-secondenregel</strong> — Zorg voor minimaal 2 seconden rijdend tussen jou en de voorligger.",
+      "<strong>Bij 120 km/u</strong> — 2 seconden = ongeveer 67 meter. Vuistregel: halve snelheid in meters.",
+      "<strong>Slechte omstandigheden</strong> — Bij regen, mist of gladheid minstens verdubbelen tot 4 seconden.",
+      "<strong>Dode hoek vrachtwagen</strong> — Als de trucker je niet ziet in zijn spiegel, zit je in de dode hoek.",
+      "<strong>Noodremmen</strong> — Hoe minder afstand, hoe groter de kans op een kop-staartbotsing."
+    ],
+    ytSearch: "cbr theorie volgafstand 2 secondenregel nederland",
+    svg: `<svg width="260" height="130" viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+  <rect width="260" height="130" fill="#1a1a35"/>
+  <!-- Weg -->
+  <rect x="0" y="55" width="260" height="30" fill="#2d2d5e"/>
+  <line x1="0" y1="70" x2="260" y2="70" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="10,8"/>
+  <!-- Auto 1 (voorligger) -->
+  <rect x="170" y="58" width="40" height="18" rx="4" fill="#94a3b8"/>
+  <rect x="175" y="60" width="12" height="10" rx="2" fill="#0d0d1a" opacity="0.5"/>
+  <rect x="191" y="60" width="12" height="10" rx="2" fill="#0d0d1a" opacity="0.5"/>
+  <!-- Achterlicht -->
+  <rect x="168" y="63" width="6" height="8" rx="2" fill="#ef4444"/>
+  <!-- Auto 2 (volger) -->
+  <rect x="50" y="58" width="40" height="18" rx="4" fill="#22c55e"/>
+  <rect x="55" y="60" width="12" height="10" rx="2" fill="#0d0d1a" opacity="0.5"/>
+  <rect x="71" y="60" width="12" height="10" rx="2" fill="#0d0d1a" opacity="0.5"/>
+  <!-- Voorlicht -->
+  <ellipse cx="92" cy="67" rx="5" ry="4" fill="#f59e0b" opacity="0.8"/>
+  <!-- Afstandsmeting -->
+  <line x1="92" y1="45" x2="168" y2="45" stroke="#7c3aed" stroke-width="2"/>
+  <line x1="92" y1="40" x2="92" y2="50" stroke="#7c3aed" stroke-width="2"/>
+  <line x1="168" y1="40" x2="168" y2="50" stroke="#7c3aed" stroke-width="2"/>
+  <text x="130" y="42" fill="#a855f7" font-size="11" text-anchor="middle" font-family="sans-serif" font-weight="bold">min. 2 seconden</text>
+  <!-- Snelheid label -->
+  <text x="130" y="100" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">Bij 120 km/u ≈ 60-67 meter</text>
+  <!-- Tijdlijn -->
+  <text x="50" y="115" fill="#22c55e" font-size="9" text-anchor="middle" font-family="sans-serif">t = 0s</text>
+  <text x="170" y="115" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">t = 2s</text>
+</svg>`
+  },
+  "Alcohol & Drugs": {
+    title: "Rijden en middelen",
+    rules: [
+      "<strong>Beginners ≤ 0,2‰</strong> — Heb je je rijbewijs korter dan 5 jaar? Dan is de limiet 0,2 promille.",
+      "<strong>Ervaren bestuurders ≤ 0,5‰</strong> — Na 5 jaar rijbewijs geldt de standaardlimiet.",
+      "<strong>Drugs = verbod</strong> — Rijden onder invloed van drugs is altijd verboden, ook cannabis.",
+      "<strong>Je voelt het niet</strong> — Alcohol vertraagt je reactietijd ook als je je prima voelt.",
+      "<strong>Medicijnen</strong> — Sommige medicijnen beïnvloeden het rijgedrag. Check altijd de bijsluiter."
+    ],
+    ytSearch: "cbr theorie alcohol drugs rijden promille nederland",
+    svg: `<svg width="240" height="130" viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="130" fill="#1a1a35"/>
+  <!-- Meter achtergrond -->
+  <path d="M 30 100 A 90 90 0 0 1 210 100" fill="none" stroke="#2d2d5e" stroke-width="22"/>
+  <!-- Groen zone 0-0.2 -->
+  <path d="M 30 100 A 90 90 0 0 1 78 33" fill="none" stroke="#22c55e" stroke-width="22" opacity="0.7"/>
+  <!-- Geel zone 0.2-0.5 -->
+  <path d="M 78 33 A 90 90 0 0 1 162 33" fill="none" stroke="#f59e0b" stroke-width="22" opacity="0.7"/>
+  <!-- Rood zone 0.5+ -->
+  <path d="M 162 33 A 90 90 0 0 1 210 100" fill="none" stroke="#ef4444" stroke-width="22" opacity="0.7"/>
+  <!-- Naald -->
+  <line x1="120" y1="100" x2="78" y2="35" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="120" cy="100" r="5" fill="white"/>
+  <!-- Labels -->
+  <text x="25" y="120" fill="#22c55e" font-size="10" text-anchor="middle" font-family="sans-serif">0</text>
+  <text x="78" y="22" fill="#f59e0b" font-size="10" text-anchor="middle" font-family="sans-serif">0,2‰</text>
+  <text x="162" y="22" fill="#ef4444" font-size="10" text-anchor="middle" font-family="sans-serif">0,5‰</text>
+  <text x="215" y="120" fill="#ef4444" font-size="10" text-anchor="middle" font-family="sans-serif">+</text>
+  <text x="120" y="80" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">beginner → 0,2</text>
+  <text x="120" y="92" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">ervaren → 0,5</text>
+</svg>`
+  },
+  "Parkeren": {
+    title: "Parkeer- en stopregels",
+    rules: [
+      "<strong>Inrit blokkeren verboden</strong> — Je mag niet stilstaan voor een in- of uitrit, ook niet kort.",
+      "<strong>5 meter voor zebrapad</strong> — Binnen 5 meter vóór een voetgangersoversteekplaats niet parkeren.",
+      "<strong>Uitstappen</strong> — Stap altijd aan de stoepkant uit om het verkeer niet in gevaar te brengen.",
+      "<strong>Gele lijn</strong> — Een gele doorgetrokken lijn langs de stoep betekent parkeerverbod.",
+      "<strong>Verbodsbord parkeren</strong> — E1-bord (blauw met rode rand en P) = parkeerverbod."
+    ],
+    ytSearch: "cbr theorie parkeren stopverbod zebrapad nederland",
+    svg: `<svg width="240" height="150" viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="150" fill="#1a1a35"/>
+  <!-- Stoep -->
+  <rect x="0" y="90" width="240" height="60" fill="#2d2d5e" opacity="0.5"/>
+  <rect x="0" y="90" width="240" height="5" fill="#94a3b8" opacity="0.5"/>
+  <!-- Rijbaan -->
+  <rect x="0" y="55" width="240" height="35" fill="#2d2d5e"/>
+  <!-- Zebrapad -->
+  <rect x="95" y="55" width="10" height="35" fill="white" opacity="0.85"/>
+  <rect x="110" y="55" width="10" height="35" fill="white" opacity="0.85"/>
+  <rect x="125" y="55" width="10" height="35" fill="white" opacity="0.85"/>
+  <!-- 5-meter zones -->
+  <rect x="50" y="50" width="45" height="5" fill="#ef4444" opacity="0.5"/>
+  <rect x="145" y="50" width="45" height="5" fill="#ef4444" opacity="0.5"/>
+  <!-- Pijl-bracket links -->
+  <line x1="50" y1="42" x2="95" y2="42" stroke="#ef4444" stroke-width="2"/>
+  <line x1="50" y1="38" x2="50" y2="46" stroke="#ef4444" stroke-width="2"/>
+  <line x1="95" y1="38" x2="95" y2="46" stroke="#ef4444" stroke-width="2"/>
+  <text x="72" y="36" fill="#ef4444" font-size="9" text-anchor="middle" font-family="sans-serif">5 meter</text>
+  <!-- Verbodskruis links -->
+  <text x="72" y="60" fill="#ef4444" font-size="16" text-anchor="middle">🚫</text>
+  <text x="192" y="60" fill="#ef4444" font-size="16" text-anchor="middle">🚫</text>
+  <!-- Voetganger -->
+  <text x="115" y="82" fill="#f1f5f9" font-size="16" text-anchor="middle">🚶</text>
+  <!-- Label -->
+  <text x="120" y="130" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">Niet parkeren binnen 5m van zebrapad</text>
+</svg>`
+  },
+  "Rijbaan": {
+    title: "Rijbaangebruik",
+    rules: [
+      "<strong>Rechts rijden</strong> — Rij altijd zo veel mogelijk aan de rechterkant van de rijbaan.",
+      "<strong>Links inhalen</strong> — De linker rijstrook is voor inhalen. Daarna terug naar rechts.",
+      "<strong>Ritssluiting</strong> — Bij samenvoegen rijden alle rijstroken tot het punt door. Beurtelings invoegen.",
+      "<strong>Vluchtstrook</strong> — Alleen voor pech of noodstop. Rijden erop is verboden.",
+      "<strong>Busstrook</strong> — Exclusief voor bussen (soms ook trams, taxi's of fietsers). Geen auto's."
+    ],
+    ytSearch: "cbr theorie rijstroken ritssluiting rijbaan nederland",
+    svg: `<svg width="260" height="140" viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg">
+  <rect width="260" height="140" fill="#1a1a35"/>
+  <!-- Snelweg 3 rijstroken -->
+  <rect x="20" y="20" width="220" height="100" rx="4" fill="#2d2d5e"/>
+  <!-- Rijstrooklijnen -->
+  <line x1="20" y1="53" x2="240" y2="53" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="12,8"/>
+  <line x1="20" y1="87" x2="240" y2="87" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="12,8"/>
+  <!-- Randlijnen -->
+  <line x1="20" y1="20" x2="20" y2="120" stroke="#f1f5f9" stroke-width="2"/>
+  <line x1="240" y1="20" x2="240" y2="120" stroke="#f1f5f9" stroke-width="2"/>
+  <!-- Labels rijstroken -->
+  <text x="130" y="40" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="sans-serif">← LINKER STROOK (inhalen)</text>
+  <text x="130" y="73" fill="#f1f5f9" font-size="9" text-anchor="middle" font-family="sans-serif">→ MIDDEN</text>
+  <text x="130" y="107" fill="#22c55e" font-size="9" text-anchor="middle" font-family="sans-serif">→ RECHTER STROOK (normaal rijden)</text>
+  <!-- Auto links -->
+  <rect x="60" y="27" width="28" height="13" rx="3" fill="#a855f7"/>
+  <!-- Auto rechts -->
+  <rect x="150" y="93" width="28" height="13" rx="3" fill="#22c55e"/>
+  <!-- Pijlen richting -->
+  <path d="M 88 33 L 200 33" stroke="#a855f7" stroke-width="1.5" fill="none" marker-end="url(#a2)"/>
+  <path d="M 178 99 L 200 99" stroke="#22c55e" stroke-width="1.5" fill="none" marker-end="url(#a3)"/>
+  <defs>
+    <marker id="a2" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5Z" fill="#a855f7"/></marker>
+    <marker id="a3" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5Z" fill="#22c55e"/></marker>
+  </defs>
+</svg>`
+  },
+  "Milieu": {
+    title: "Milieuvriendelijk rijden",
+    rules: [
+      "<strong>Soepel optrekken</strong> — Accelereer rustig en schakel vroeg naar een hogere versnelling.",
+      "<strong>Vooruit kijken</strong> — Anticipeer op stoplichten en files. Minder remmen = minder verbruik.",
+      "<strong>Gas loslaten</strong> — Wanneer je remt, laat dan eerst het gas los en rem dan pas.",
+      "<strong>Motor uit</strong> — Bij meer dan 1-2 minuten stilstaan is het zuiniger de motor uit te zetten.",
+      "<strong>Bandenspanning</strong> — Lage bandenspanning verhoogt het brandstofverbruik. Controleer regelmatig."
+    ],
+    ytSearch: "cbr theorie zuinig rijden milieu nederland",
+    svg: `<svg width="260" height="130" viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+  <rect width="260" height="130" fill="#1a1a35"/>
+  <!-- Assen -->
+  <line x1="30" y1="20" x2="30" y2="100" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="30" y1="100" x2="230" y2="100" stroke="#94a3b8" stroke-width="1.5"/>
+  <!-- Labels as -->
+  <text x="15" y="25" fill="#94a3b8" font-size="9" font-family="sans-serif">brandstof</text>
+  <text x="220" y="112" fill="#94a3b8" font-size="9" font-family="sans-serif">tijd →</text>
+  <!-- Lijn agressief rijden -->
+  <path d="M 30 80 L 60 30 L 90 90 L 120 35 L 150 88 L 180 32 L 210 85" stroke="#ef4444" stroke-width="2.5" fill="none"/>
+  <text x="215" y="82" fill="#ef4444" font-size="9" font-family="sans-serif">❌</text>
+  <!-- Lijn eco rijden -->
+  <path d="M 30 80 L 80 60 L 130 55 L 180 52 L 210 50" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+  <text x="215" y="47" fill="#22c55e" font-size="9" font-family="sans-serif">✅</text>
+  <!-- Legenda -->
+  <line x1="30" y1="120" x2="50" y2="120" stroke="#ef4444" stroke-width="2"/>
+  <text x="55" y="123" fill="#ef4444" font-size="9" font-family="sans-serif">agressief rijden</text>
+  <line x1="130" y1="120" x2="150" y2="120" stroke="#22c55e" stroke-width="2"/>
+  <text x="155" y="123" fill="#22c55e" font-size="9" font-family="sans-serif">eco rijden</text>
+</svg>`
+  },
+  "Voertuig": {
+    title: "Voertuigcontrole",
+    rules: [
+      "<strong>Bandenspanning</strong> — Te lage spanning = gevaarlijk remmen + meer verbruik. Maandelijks controleren.",
+      "<strong>Olie</strong> — Controleer de motorolie maandelijks of voor een lange rit. Te weinig = motorschade.",
+      "<strong>APK</strong> — Je auto moet een geldige APK-keuring hebben. Rijden zonder APK is verboden.",
+      "<strong>Remmen</strong> — Slappe remmen (lange pedaalweg) = direct stoppen en laten controleren.",
+      "<strong>Temperatuurmeter</strong> — Gaat de naald naar rood? Direct stoppen, motor uit, laten afkoelen."
+    ],
+    ytSearch: "cbr theorie voertuigcontrole APK banden olie",
+    svg: `<svg width="260" height="130" viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg">
+  <rect width="260" height="130" fill="#1a1a35"/>
+  <!-- Auto body -->
+  <rect x="40" y="55" width="180" height="50" rx="8" fill="#2d2d5e" stroke="#7c3aed" stroke-width="1.5"/>
+  <rect x="65" y="38" width="130" height="28" rx="6" fill="#2d2d5e" stroke="#7c3aed" stroke-width="1.5"/>
+  <!-- Wielen -->
+  <circle cx="80" cy="105" r="16" fill="#1a1a35" stroke="#94a3b8" stroke-width="3"/>
+  <circle cx="80" cy="105" r="8" fill="#2d2d5e"/>
+  <circle cx="180" cy="105" r="16" fill="#1a1a35" stroke="#94a3b8" stroke-width="3"/>
+  <circle cx="180" cy="105" r="8" fill="#2d2d5e"/>
+  <!-- Banden indicator -->
+  <text x="80" y="128" fill="#22c55e" font-size="8" text-anchor="middle" font-family="sans-serif">✓ spanning</text>
+  <text x="180" y="128" fill="#f59e0b" font-size="8" text-anchor="middle" font-family="sans-serif">⚠ check!</text>
+  <!-- Motor temp -->
+  <rect x="110" y="60" width="15" height="30" rx="3" fill="#1a1a35" stroke="#94a3b8" stroke-width="1"/>
+  <rect x="110" y="75" width="15" height="15" rx="2" fill="#22c55e"/>
+  <text x="118" y="57" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="sans-serif">temp</text>
+  <!-- Olie -->
+  <text x="145" y="80" fill="#f59e0b" font-size="16" text-anchor="middle">🛢</text>
+  <text x="145" y="95" fill="#f59e0b" font-size="8" text-anchor="middle" font-family="sans-serif">olie</text>
+  <!-- APK sticker -->
+  <rect x="175" y="60" width="25" height="18" rx="3" fill="#22c55e" opacity="0.8"/>
+  <text x="188" y="73" fill="white" font-size="8" text-anchor="middle" font-family="sans-serif">APK✓</text>
+</svg>`
+  },
+  "Gevaarherkenning": {
+    title: "Gevaren herkennen",
+    rules: [
+      "<strong>Rollende bal</strong> — Bal op de weg = kind erachter. Vertraag onmiddellijk.",
+      "<strong>Slippen</strong> — Stuur in de richting die je wilt. Gas minderen, NIET hard remmen.",
+      "<strong>Schoolbus</strong> — Gele knipperlichten = kinderen stappen in/uit. Stop achter de bus.",
+      "<strong>Bos en bochten</strong> — Beperkt zicht + wild op de weg. Rijd langzamer dan toegestaan.",
+      "<strong>Fietser zonder licht</strong> — Vertraag en houd ruim 1,5 meter afstand bij inhalen."
+    ],
+    ytSearch: "cbr gevaarherkenning risicoperceptie theorie oefening",
+    svg: `<svg width="240" height="140" viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="140" fill="#1a1a35"/>
+  <!-- Weg -->
+  <rect x="0" y="70" width="240" height="40" fill="#2d2d5e"/>
+  <line x1="0" y1="90" x2="240" y2="90" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="10,8"/>
+  <!-- Geparkeerde auto links -->
+  <rect x="0" y="40" width="50" height="30" rx="4" fill="#374151"/>
+  <rect x="50" y="40" width="40" height="30" rx="4" fill="#374151"/>
+  <!-- Bal -->
+  <circle cx="100" cy="72" r="7" fill="#ef4444"/>
+  <!-- Pijl bal -->
+  <path d="M 90 72 L 75 72" stroke="#ef4444" stroke-width="1.5" fill="none"/>
+  <!-- Kind verscholen -->
+  <text x="38" y="70" fill="#f59e0b" font-size="18">👦</text>
+  <!-- Pijl kind rennen -->
+  <path d="M 50 65 Q 75 65 90 72" stroke="#f59e0b" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+  <!-- Auto nadert -->
+  <rect x="170" y="73" width="38" height="17" rx="4" fill="#22c55e"/>
+  <ellipse cx="170" cy="81" rx="5" ry="4" fill="#f59e0b" opacity="0.8"/>
+  <!-- Waarschuwing -->
+  <polygon points="120,30 105,55 135,55" fill="#f59e0b"/>
+  <text x="120" y="50" fill="#0d0d1a" font-size="12" text-anchor="middle" font-weight="bold">!</text>
+  <text x="120" y="68" fill="#f59e0b" font-size="9" text-anchor="middle" font-family="sans-serif">▼ vertraag!</text>
+  <!-- Label -->
+  <text x="120" y="125" fill="#94a3b8" font-size="10" text-anchor="middle" font-family="sans-serif">Bal op weg = anticipeer op kind</text>
+</svg>`
+  },
+  "Regels": {
+    title: "Verkeersregels & wet",
+    rules: [
+      "<strong>Gordel verplicht</strong> — Alle inzittenden dragen een gordel, zowel voor- als achterin.",
+      "<strong>Telefoon verboden</strong> — Vasthouden van je telefoon tijdens rijden is verboden. Handsfree mag.",
+      "<strong>Aanrijding</strong> — Altijd stoppen, gegevens uitwisselen, bij letsel bel 112.",
+      "<strong>Rijbewijs geldig</strong> — Rijden met ongeldig rijbewijs is een strafbaar feit.",
+      "<strong>APK + verzekering</strong> — Beide zijn verplicht. Zonder geldig APK is je verzekering mogelijk ongeldig."
+    ],
+    ytSearch: "cbr theorie verkeersregels gordel telefoon rijbewijs",
+    svg: `<svg width="240" height="130" viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="130" fill="#1a1a35"/>
+  <!-- Gordel ok -->
+  <rect x="20" y="25" width="80" height="80" rx="12" fill="#2d2d5e" stroke="#22c55e" stroke-width="2"/>
+  <text x="60" y="60" font-size="32" text-anchor="middle">🧍</text>
+  <!-- Gordel lijn -->
+  <path d="M 50 35 Q 40 65 60 90" stroke="#22c55e" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <text x="60" y="118" fill="#22c55e" font-size="10" text-anchor="middle" font-family="sans-serif">✅ gordel aan</text>
+  <!-- Telefoon verbod -->
+  <rect x="140" y="25" width="80" height="80" rx="12" fill="#2d2d5e" stroke="#ef4444" stroke-width="2"/>
+  <text x="180" y="68" font-size="28" text-anchor="middle">📱</text>
+  <!-- Verbodskruis -->
+  <line x1="148" y1="33" x2="212" y2="97" stroke="#ef4444" stroke-width="4"/>
+  <line x1="212" y1="33" x2="148" y2="97" stroke="#ef4444" stroke-width="4"/>
+  <text x="180" y="118" fill="#ef4444" font-size="10" text-anchor="middle" font-family="sans-serif">❌ telefoon verboden</text>
+</svg>`
+  }
+};
+
+// ============================================================
+// QUESTIONS (with optional svg field)
 // ============================================================
 const QUESTIONS = [
-
-  // ===== CATEGORIE: Voorrang =====
   {cat:"Voorrang", q:"Je rijdt op een gelijkwaardige kruising. Van rechts nadert een voertuig. Wat doe je?",
-   opts:["Je hebt voorrang, rij door","Je verleent voorrang aan het voertuig van rechts","Je claxonneert en rijdt door","Je stopt en wacht tot de weg vrij is"],
-   correct:1, explain:"Op een gelijkwaardige kruising heeft het verkeer van rechts altijd voorrang."},
-
-  {cat:"Voorrang", q:"Je nadert een kruising met een haaientandmarkering op het wegdek. Wat betekent dit?",
-   opts:["Je hebt voorrang op dit kruispunt","Je moet voorrang verlenen aan het verkeer op de kruisende weg","Je moet altijd stoppen","Je mag doorrijden als er geen verkeer is"],
-   correct:1, explain:"Haaientanden (driehoeken op het wegdek) geven aan dat je voorrang moet verlenen."},
-
+   opts:["Je hebt voorrang, rij door","Je verleent voorrang aan het voertuig van rechts","Je claxonneert en rijdt door","Je stopt altijd"],
+   correct:1, explain:"Op een gelijkwaardige kruising heeft verkeer van rechts altijd voorrang."},
+  {cat:"Voorrang", q:"Je nadert een kruising met haaientanden op het wegdek. Wat betekent dit?",
+   opts:["Je hebt voorrang","Je moet voorrang verlenen aan kruisend verkeer","Je moet altijd stoppen","Je mag doorrijden als de weg vrij is"],
+   correct:1, explain:"Haaientanden (driehoeken op het wegdek) = jij verleent voorrang."},
   {cat:"Voorrang", q:"Een ambulance met sirene en blauw zwaailicht nadert van achteren. Wat doe je?",
-   opts:["Versnellen om uit de weg te gaan","Stoppen waar je rijdt","Zoveel mogelijk naar rechts gaan en zo nodig stoppen","Naar links gaan om ruimte te maken"],
-   correct:2, explain:"Voorrangvoertuigen met sirene en blauw licht moet je zo snel mogelijk doorgang verlenen. Ga naar rechts en stop indien nodig."},
-
-  {cat:"Voorrang", q:"Je wilt linksaf slaan op een kruising. Een tegenligger rijdt rechtdoor. Wie heeft voorrang?",
-   opts:["Jij, want je bent eerder bij de kruising","De tegenligger, want rechtdoor gaat voor linksaf","Beiden tegelijk, jullie mogen gelijktijdig rijden","De tegenligger, maar jij mag er tussendoor"],
-   correct:1, explain:"Bij linksafslaan moet je altijd het tegemoetkomend verkeer dat rechtdoor rijdt, laten gaan."},
-
+   opts:["Versnellen","Stoppen waar je rijdt","Naar rechts gaan en zo nodig stoppen","Naar links gaan"],
+   correct:2, explain:"Voorrangsvoertuigen geef je doorgang. Wijk naar rechts, stop indien nodig."},
+  {cat:"Voorrang", q:"Je wilt linksaf slaan. Een tegenligger rijdt rechtdoor. Wie heeft voorrang?",
+   opts:["Jij","De tegenligger","Gelijktijdig mag","De tegenligger, maar jij mag er tussendoor"],
+   correct:1, explain:"Bij linksafslaan moet je tegemoetkomend verkeer dat rechtdoor rijdt laten gaan."},
   {cat:"Voorrang", q:"Je rijdt op een erftoegangweg en wilt de hoofdweg oprijden. Wat geldt?",
-   opts:["Je hebt voorrang op de hoofdweg","Je moet voorrang verlenen aan het verkeer op de hoofdweg","Je mag doorrijden als er geen auto's zijn","Verkeer op de hoofdweg moet voor jou stoppen"],
-   correct:1, explain:"Verkeer dat een erftoegangweg verlaat moet altijd voorrang verlenen aan het verkeer op de aansluitende weg."},
+   opts:["Je hebt voorrang","Je moet voorrang verlenen","Je mag als er geen auto's zijn","Hoofdweg stopt voor jou"],
+   correct:1, explain:"Verkeer dat een erftoegangweg verlaat geeft altijd voorrang aan de hoofdweg."},
+  {cat:"Voorrang", q:"Op een kruising staat het licht op oranje. Wat doe je?",
+   opts:["Versnellen om de kruising over te steken","Stoppen als dit veilig mogelijk is","Alleen stoppen bij politie","Doorrijden want oranje is geen verbod"],
+   correct:1, explain:"Oranje = stop, tenzij stoppen niet meer veilig kan. Niet versnellen."},
+  {cat:"Voorrang", q:"Een tram en een auto naderen dezelfde kruising. Wie heeft voorrang?",
+   opts:["De auto, die was eerder","De tram heeft altijd voorrang tenzij anders aangegeven","Ze rijden gelijktijdig","Degene van rechts"],
+   correct:1, explain:"Trams hebben altijd voorrang op ander verkeer, ook van links."},
 
-  // ===== CATEGORIE: Snelheid =====
   {cat:"Snelheid", q:"Wat is de maximumsnelheid binnen de bebouwde kom?",
    opts:["30 km/u","50 km/u","70 km/u","80 km/u"],
-   correct:1, explain:"Binnen de bebouwde kom geldt standaard een maximumsnelheid van 50 km/u, tenzij anders aangegeven."},
-
-  {cat:"Snelheid", q:"Op een autosnelweg buiten de bebouwde kom, wat is de standaard maximumsnelheid?",
+   correct:1, explain:"Binnen bebouwde kom: standaard 50 km/u, tenzij bord anders aangeeft."},
+  {cat:"Snelheid", q:"Wat is de maximumsnelheid op een autosnelweg?",
    opts:["100 km/u","120 km/u","130 km/u","150 km/u"],
-   correct:2, explain:"Op autosnelwegen geldt een maximumsnelheid van 130 km/u, tenzij borden een lagere snelheid aangeven."},
-
-  {cat:"Snelheid", q:"Op een autoweg (geen autosnelweg) buiten de bebouwde kom, wat is de maximumsnelheid?",
+   correct:2, explain:"Op autosnelwegen geldt maximaal 130 km/u, tenzij borden lager aangeven."},
+  {cat:"Snelheid", q:"Wat is de maximumsnelheid op een autoweg buiten de bebouwde kom?",
    opts:["80 km/u","100 km/u","120 km/u","130 km/u"],
-   correct:1, explain:"Op autowegen (aangeduid met blauw bord met auto) geldt een maximumsnelheid van 100 km/u."},
+   correct:1, explain:"Op autowegen (blauw bord met auto) is de maximumsnelheid 100 km/u."},
+  {cat:"Snelheid", q:"Je rijdt 's nachts op een slecht verlichte weg. Hoe pas je je rijgedrag aan?",
+   opts:["Zelfde snelheid, je hebt goede koplampen","Langzamer, zodat je altijd kunt stoppen binnen het zichtbaar gebied","Sneller om er snel doorheen te zijn","Groot licht aan en normaal doorrijden"],
+   correct:1, explain:"Je moet altijd kunnen stoppen binnen de afstand die je kunt overzien."},
+  {cat:"Snelheid", q:"Er staat een bord met '30' in een rode cirkel. Wat geldt?",
+   opts:["Aanbevolen snelheid","Verplichte maximumsnelheid 30 km/u","Minimumsnelheid","Alleen voor vrachtwagens"],
+   correct:1, explain:"Getal in rode cirkel = verplicht maximum. Je mag niet harder dan 30 km/u."},
+  {cat:"Snelheid", q:"Het is glad door ijzel. Jij rijdt normaal 80 km/u op deze weg. Wat doe je?",
+   opts:["Gewoon 80 km/u, auto heeft ABS","Snelheid sterk aanpassen en aanzienlijk langzamer rijden","Iets langzamer, max 60 km/u","4WD aanzetten en doorrijden"],
+   correct:1, explain:"Bij ijzel is de remweg enorm langer, ook met ABS. Pas je snelheid sterk aan."},
 
-  {cat:"Snelheid", q:"Je rijdt 's nachts op een weg met slechte verlichting. Hoe pas je je rijgedrag aan?",
-   opts:["Je rijdt dezelfde snelheid, je hebt goede koplampen","Je rijdt langzamer zodat je altijd kunt stoppen binnen de afstand die je kunt overzien","Je rijdt sneller om snel door het gevaarlijke stuk te komen","Je zet groot licht aan en rijdt gewoon door"],
-   correct:1, explain:"Je moet altijd binnen de afstand kunnen stoppen die je kunt overzien. 's Nachts of bij slecht zicht betekent dit een lagere snelheid."},
+  {cat:"Verkeersborden", q:"Wat betekent een rond blauw bord met een pijl omhoog?",
+   opts:["Eenrichtingsverkeer","Verplichte rijrichting rechtdoor","Verbod om te stoppen","Aanbevolen rijrichting"],
+   correct:1, explain:"Blauw rond bord met pijl = gebodsbord. Pijl omhoog = verplicht rechtdoor."},
+  {cat:"Verkeersbonden", q:"Wat betekent een driehoekig bord met rode rand en uitroepteken?",
+   opts:["Stop, gevaar","Algemeen gevaar, wees voorzichtig","Verboden doorgang","Werk in uitvoering"],
+   correct:1, explain:"Driehoek rode rand = waarschuwing. Uitroepteken = algemeen gevaar."},
+  {cat:"Verkeersborden", q:"Wat is het verschil tussen een stopbord en haaientanden?",
+   opts:["Stopbord mag je door als er niemand is","Stopbord moet je altijd stoppen; haaientanden stop je alleen als nodig","Ze betekenen hetzelfde","Stopbord alleen voor auto's"],
+   correct:1, explain:"Stopbord (achthoek rood) = altijd stoppen. Haaientanden = alleen stoppen als nodig."},
+  {cat:"Verkeersborden", q:"Een blauw rechthoekig bord met een witte P. Wat betekent dit?",
+   opts:["Parkeerverbod","Parkeerplaats","Alleen voor vergunninghouders","Betaald parkeren"],
+   correct:1, explain:"Blauw bord met P = parkeerplaats."},
+  {cat:"Verkeersborden", q:"Een geel diamantvormig bord betekent:",
+   opts:["Gevaarlijke kruising","Je rijdt op een voorrangsweg","Werk in uitvoering","Gevaarlijke bocht"],
+   correct:1, explain:"Gele ruit = voorrangsweg. Jij hebt voorrang op kruisingen."},
+  {cat:"Verkeersbonden", q:"Een bord met rode rand en doorgestreepte vrachtwagen betekent:",
+   opts:["Parkeerverbod vrachtwagens","Vrachtwagens mogen hier niet rijden","Vrachtwagens hebben voorrang","Maximumgewicht"],
+   correct:1, explain:"Doorgestreept symbool op verbodsbord = dat voertuig mag er niet."},
 
-  {cat:"Snelheid", q:"Er staat een bord met '30' in een rode cirkel. Wat geldt hier?",
-   opts:["Aanbevolen maximumsnelheid van 30 km/u","Verplichte maximumsnelheid van 30 km/u","Minimumsnelheid van 30 km/u","Snelheidsbeperking geldt alleen voor vrachtwagens"],
-   correct:1, explain:"Een getal in een rode cirkel is een verplichte maximumsnelheid. Je mag niet sneller dan 30 km/u rijden."},
-
-  // ===== CATEGORIE: Verkeersborden =====
-  {cat:"Verkeersborden", q:"Wat betekent een rond blauw bord met een witte pijl die omhoog wijst?",
-   opts:["Eenrichtingsverkeer, je mag alleen rechtdoor","Verplichte rijrichting rechtdoor","Verbod om te stoppen","Aanbevolen rijrichting"],
-   correct:1, explain:"Een rond blauw bord met een witte pijl is een gebodsbord. De pijl naar boven betekent: je moet rechtdoor rijden."},
-
-  {cat:"Verkeersborden", q:"Wat betekent een driehoekig bord met rode rand en een uitroepteken?",
-   opts:["Stop, gevaar voor overstekers","Algemeen gevaar, pas op","Verboden doorgang","Waarschuwing: werk aan de weg"],
-   correct:1, explain:"Een driehoek met rode rand is een waarschuwingsbord. Een uitroepteken betekent: algemeen gevaar. Wees voorzichtig."},
-
-  {cat:"Verkeersborden", q:"Wat is het verschil tussen een stopbord en een verleenbord (haaientanden)?",
-   opts:["Bij een stopbord mag je doorrijden als er niemand is; bij haaientanden moet je altijd stoppen","Bij een stopbord moet je altijd stoppen; bij haaientanden stop je alleen als het nodig is","Ze betekenen hetzelfde","Stopbord is voor auto's, haaientanden voor fietsers"],
-   correct:1, explain:"Bij een stopbord (achthoekig rood bord) moet je altijd stoppen, ook als er niets aankomt. Bij voorrangverlenen (haaientanden) stop je alleen als het noodzakelijk is."},
-
-  {cat:"Verkeersborden", q:"Je ziet een blauw rechthoekig bord met een witte 'P'. Wat betekent dit?",
-   opts:["Parkeren verboden","Parkeerplaats","Parkeren alleen voor vergunninghouders","Betaald parkeren"],
-   correct:1, explain:"Een blauw bord met witte 'P' geeft een parkeerplaats aan."},
-
-  {cat:"Verkeersborden", q:"Een geel diamantvormig bord met een witte rand betekent:",
-   opts:["Gevaarlijke kruising","Je bevindt je op een voorrangsweg","Werk in uitvoering","Waarschuwing: gevaarlijke bocht"],
-   correct:1, explain:"Het gele ruit-/diamantvormige bord betekent dat je op een voorrangsweg rijdt. Je hebt voorrang op kruisingen."},
-
-  // ===== CATEGORIE: Inhalen =====
   {cat:"Inhalen", q:"Wanneer is inhalen verboden?",
-   opts:["Alleen bij tegenliggers","Bij een doorgetrokken witte streep in het midden van de weg","Alleen in een bocht","Bij regen of gladheid"],
-   correct:1, explain:"Een doorgetrokken streep in het midden van de rijbaan betekent dat je niet mag inhalen of de streep mag overschrijden."},
-
-  {cat:"Inhalen", q:"Je wilt een fietser inhalen. Wat is de minimale zijdelingse afstand die je moet aanhouden?",
+   opts:["Alleen bij tegenliggers","Bij een doorgetrokken middenstreep","Alleen in een bocht","Bij regen"],
+   correct:1, explain:"Doorgetrokken middenstreep = inhalen verboden. Mag die streep niet overschrijden."},
+  {cat:"Inhalen", q:"Je wilt een fietser inhalen. Minimale zijdelingse afstand?",
    opts:["50 cm","1 meter","1,5 meter","2 meter"],
-   correct:2, explain:"Bij het inhalen van fietsers en bromfietsers moet je minimaal 1,5 meter zijdelingse afstand houden."},
+   correct:2, explain:"Bij inhalen van fietsers en bromfietsers: minimaal 1,5 meter zijdelingse afstand."},
+  {cat:"Inhalen", q:"Wanneer mag je rechts inhalen?",
+   opts:["Altijd als de weg vrij is","Nooit","Als het voertuig voor je linksaf gaat","Alleen met knipperlicht"],
+   correct:2, explain:"Rechts inhalen is verboden, maar toegestaan als het voertuig voor je linksaf gaat."},
+  {cat:"Inhalen", q:"Je haalt in en het voertuig achter je begint ook in te halen. Wat doe je?",
+   opts:["Direct teruggaan naar rechts","Je inhaalactie zo snel en veilig mogelijk voltooien","Stoppen om hem door te laten","Niets doen"],
+   correct:1, explain:"Voltooien is veiliger dan abrupt afbreken. Doe het snel en veilig."},
 
-  {cat:"Inhalen", q:"Je rijdt op een tweebaansweg. Wanneer mag je rechts inhalen?",
-   opts:["Altijd, als de weg vrij is","Nooit, inhalen gaat altijd links","Als het voertuig voor je linksaf wil slaan","Alleen met knipperlichten aan"],
-   correct:2, explain:"Rechts inhalen is in principe verboden, maar toegestaan als het voertuig voor je linksaf gaat slaan."},
-
-  // ===== CATEGORIE: Lichten =====
   {cat:"Lichten", q:"Wanneer moet je dimlichten voeren?",
-   opts:["Alleen 's nachts","Altijd als je rijdt, overdag en 's nachts","Alleen bij mist","Alleen buiten de bebouwde kom"],
-   correct:1, explain:"In Nederland zijn dimlichten verplicht bij elk motorvoertuig in beweging, zowel overdag als 's nachts."},
+   opts:["Alleen 's nachts","Altijd als je rijdt, ook overdag","Alleen bij mist","Alleen buiten bebouwde kom"],
+   correct:1, explain:"Dimlichten zijn verplicht bij elk motorvoertuig in beweging, overdag én 's nachts."},
+  {cat:"Lichten", q:"Wanneer gebruik je groot licht?",
+   opts:["Altijd 's nachts","Als er geen tegenliggers of voorliggers zijn","Nooit, dimlicht is genoeg","Alleen op snelwegen"],
+   correct:1, explain:"Groot licht gebruik je als er geen andere gebruikers zijn die je zou verblinden."},
+  {cat:"Lichten", q:"Wanneer mag je het mistachterlicht gebruiken?",
+   opts:["Altijd bij regen","Bij zicht korter dan 50 meter","Als je het nodig vindt","Alleen 's nachts bij mist"],
+   correct:1, explain:"Mistachterlicht alleen bij zicht korter dan 50 meter. Bij beter zicht is het verboden."},
+  {cat:"Lichten", q:"Stadslichten gebruiken in plaats van dimlichten: wanneer?",
+   opts:["Altijd in bebouwde kom","Nooit","Op goed verlichte wegen in bebouwde kom","Bij minder dan 50m zicht"],
+   correct:2, explain:"Op goed verlichte wegen binnen bebouwde kom mogen stadslichten. Buiten: dimlicht verplicht."},
 
-  {cat:"Lichten", q:"Je rijdt 's nachts op een onverlichte weg. Wanneer gebruik je groot licht?",
-   opts:["Altijd 's nachts","Als er geen tegenliggers of voorliggers zijn","Nooit, dimlicht is altijd voldoende","Alleen op snelwegen"],
-   correct:1, explain:"Groot licht gebruik je als er geen andere weggebruikers zijn die daardoor verblind zouden worden. Bij tegenliggers of voorliggers schakel je terug naar dimlicht."},
+  {cat:"Afstand", q:"Wat is de vuistregel voor veilige volgafstand?",
+   opts:["Minimaal 10 meter","De afstand die je in 2 seconden aflegt","Minimaal 50 meter","1 seconde afstand"],
+   correct:1, explain:"De 2-secondenregel: minimaal 2 seconden rijdtijd tussen jou en de voorligger."},
+  {cat:"Afstand", q:"Je rijdt 120 km/u. Wat is de minimaal aanbevolen volgafstand?",
+   opts:["30 meter","60 meter","100 meter","120 meter"],
+   correct:1, explain:"Bij 120 km/u = 2 seconden ≈ 67 meter. Vuistregel: helft van snelheid in meters."},
+  {cat:"Afstand", q:"Voor je rijdt een vrachtwagen. Je staat in zijn dode hoek. Wat doe je?",
+   opts:["Dicht achter hem blijven","Inhalen zodra mogelijk, anders op veilige zichtbare afstand blijven","Claxonneren","Naar de linkerbaan"],
+   correct:1, explain:"Dode hoek vrachtwagen is groot. Als hij je niet ziet, riskeer je schade bij manoeuvres."},
 
-  {cat:"Lichten", q:"Je rijder rijdt bij mist. Wanneer mag je mistachterlicht gebruiken?",
-   opts:["Altijd bij regen","Als het zicht minder dan 50 meter is","Als je het zelf nodig vindt","Alleen 's nachts bij mist"],
-   correct:1, explain:"Mistachterlichten zijn verplicht bij zicht korter dan 50 meter (bv. bij dichte mist of sneeuw). Bij beter zicht zijn ze verboden."},
+  {cat:"Alcohol & Drugs", q:"Maximale alcoholpromillage beginnend bestuurder (eerste 5 jaar)?",
+   opts:["0,5 promille","0,2 promille","0 promille","0,3 promille"],
+   correct:1, explain:"Beginners (eerste 5 jaar): max 0,2 promille. Ervaren bestuurders: max 0,5 promille."},
+  {cat:"Alcohol & Drugs", q:"Wat doet alcohol echt met je rijvermogen?",
+   opts:["Verbetert concentratie bij kleine hoeveelheden","Vertraagt reactietijd en risicobeoordeling, ook bij kleine hoeveelheden","Heeft alleen effect als je dronken voelt","Alleen bij meer dan 2 glazen"],
+   correct:1, explain:"Alcohol vertraagt altijd de reactietijd en vermindert het risico-oordeel, ook als je je goed voelt."},
+  {cat:"Alcohol & Drugs", q:"Is rijden na cannabis gebruik toegestaan?",
+   opts:["Ja als je je goed voelt","Nee, rijden onder invloed van drugs is altijd verboden","Ja, op korte afstanden","Ja, als het meer dan 2 uur geleden is"],
+   correct:1, explain:"Rijden onder invloed van drugs is verboden. Cannabis kan uren tot dagen effect hebben."},
 
-  // ===== CATEGORIE: Afstand houden =====
-  {cat:"Afstand", q:"Wat is de vuistregel voor de veilige volgafstand achter een voorliggend voertuig?",
-   opts:["Minimaal 10 meter","De afstand die je in 2 seconden aflegt","Minimaal 50 meter","De afstand die je in 1 seconde aflegt"],
-   correct:1, explain:"De 2-secondenregel: zorg dat er minimaal 2 seconden tussen jou en de voorligger zit. Bij slechte omstandigheden meer."},
-
-  {cat:"Afstand", q:"Je rijdt 120 km/u op de snelweg. Wat is de minimale aanbevolen volgafstand?",
-   opts:["Ongeveer 30 meter","Ongeveer 60 meter","Ongeveer 100 meter","Ongeveer 120 meter"],
-   correct:1, explain:"Op snelwegen geldt de 2-secondenregel. Bij 120 km/u leg je in 2 seconden 67 meter af. Een veilige vuistregel is ook: de helft van je snelheid in meters (60 meter bij 120 km/u)."},
-
-  // ===== CATEGORIE: Alcohol en drugs =====
-  {cat:"Alcohol & Drugs", q:"Wat is de maximale toegestane alcoholpromillage voor een beginnend bestuurder (eerste 5 jaar)?",
-   opts:["0,5 promille","0,2 promille","0 promille (nuchter)","0,3 promille"],
-   correct:1, explain:"Beginnende bestuurders (eerste 5 jaar na behalen rijbewijs) mogen maximaal 0,2 promille hebben. Ervaren bestuurders mogen 0,5 promille."},
-
-  {cat:"Alcohol & Drugs", q:"Je hebt alcohol gedronken. Je voelt je goed en denkt dat het wel meevalt. Wat doet alcohol echt met je rijvermogen?",
-   opts:["Alcohol verbetert je concentratie bij kleine hoeveelheden","Alcohol vertraagt je reactievermogen en je schat risico's verkeerd in","Alcohol heeft alleen effect als je je dronken voelt","Alleen meer dan 2 glazen heeft effect op het rijden"],
-   correct:1, explain:"Alcohol vertraagt altijd de reactietijd, vermindert concentratie en zorgt voor risicoschatting. Dit geldt al bij kleine hoeveelheden, ook als je je goed voelt."},
-
-  {cat:"Alcohol & Drugs", q:"Is het toegestaan om cannabis te gebruiken en daarna te rijden?",
-   opts:["Ja, als je je goed voelt mag je rijden","Nee, rijden onder invloed van drugs is verboden","Ja, maar alleen op korte afstanden","Ja, als het meer dan 2 uur geleden is"],
-   correct:1, explain:"Rijden onder invloed van drugs, inclusief cannabis, is verboden. Cannabis kan uren tot dagen invloed hebben op je rijvaardigheid."},
-
-  // ===== CATEGORIE: Parkeren =====
-  {cat:"Parkeren", q:"Mag je stilstaan voor een inrit van een garage?",
-   opts:["Ja, kort stilstaan is altijd toegestaan","Nee, je mag een inrit niet blokkeren","Ja, als de bewoner het goed vindt","Alleen als je direct in- of uitstapt"],
-   correct:1, explain:"Het is verboden om een inrit of uitrit te blokkeren, ook kort stilstaan."},
-
+  {cat:"Parkeren", q:"Mag je stilstaan voor een garageinrit?",
+   opts:["Ja, kort stilstaan mag","Nee, inrit blokkeren is verboden","Ja als de bewoner het goedvindt","Alleen bij in/uitstappen"],
+   correct:1, explain:"Inrit of uitrit blokkeren is verboden, ook kort stilstaan."},
   {cat:"Parkeren", q:"Op welke afstand van een zebrapad mag je niet parkeren?",
-   opts:["5 meter voor het zebrapad","5 meter voor en achter het zebrapad","3 meter van het zebrapad","Direct naast het zebrapad mag wel"],
-   correct:0, explain:"Je mag niet parkeren binnen 5 meter vóór een voetgangersoversteekplaats (zebrapad). Achter het zebrapad zijn er geen specifieke regels."},
+   opts:["5 meter voor het zebrapad","5 meter voor en achter","3 meter","Direct naast mag wel"],
+   correct:0, explain:"Niet binnen 5 meter vóór een zebrapad parkeren. Achter het zebrapad gelden geen specifieke regels."},
+  {cat:"Parkeren", q:"Aan welke kant stap je uit als je langs de weg geparkeerd staat?",
+   opts:["Rijbaankant","Stoepkant, om verkeer niet te hinderen","Maakt niet uit","Rijbaankant zodat je het verkeer ziet"],
+   correct:1, explain:"Altijd aan de stoepkant uitstappen om het verkeer niet in gevaar te brengen."},
 
-  {cat:"Parkeren", q:"Je parkeert langs de kant van de weg. Aan welke kant moet je uitstappen?",
-   opts:["Aan de rijbaankant","Aan de stoepkant, om het verkeer niet te hinderen","Het maakt niet uit","Aan de rijbaankant, zodat je het verkeer kunt zien"],
-   correct:1, explain:"Stap uit aan de stoepkant om gevaar voor het verkeer te voorkomen. Als dat niet kan, controleer dan goed of er geen verkeer aankomt."},
+  {cat:"Rijbaan", q:"Welke rijstrook gebruik je normaal op een weg met twee rijstroken in dezelfde richting?",
+   opts:["Linker rijstrook","Rechter rijstrook","Maakt niet uit","Regelmatig wisselen"],
+   correct:1, explain:"Je rijdt zo veel mogelijk rechts. Links is voor inhalen."},
+  {cat:"Rijbaan", q:"Hoe werkt een ritssluiting bij een file op de snelweg?",
+   opts:["Zo vroeg mogelijk in de rechterrijstrook","Alle rijstroken doorrijden tot samenvoegpunt en beurtelings invoegen","Altijd in linkerrijstrook","Zo snel mogelijk van strook wisselen"],
+   correct:1, explain:"Bij ritssluiting: doorrijden in beide stroken tot het punt, dan beurtelings invoegen."},
+  {cat:"Rijbaan", q:"Mag je als personenauto op de busstrook rijden?",
+   opts:["Nooit","Als de bus er niet is","Alleen bij 'auto' op het bord","Buiten spitsuren"],
+   correct:0, explain:"Busstrook is voor bussen (soms trams, taxi's, fietsers). Personenauto's zijn altijd verboden."},
+  {cat:"Rijbaan", q:"Mag je keren op een autosnelweg?",
+   opts:["Ja, via de vluchtstrook","Nee, keren is verboden op autosnelweg","Ja als er geen verkeer is","Ja via een nooduitgang"],
+   correct:1, explain:"Keren op een autosnelweg is verboden en levensgevaarlijk."},
+  {cat:"Rijbaan", q:"Waarvoor is de vluchtstrook op een snelweg?",
+   opts:["Langzaam verkeer","Inhalen bij drukte","Pechgevallen en noodstops","Fietsers en brommers"],
+   correct:2, explain:"Vluchtstrook = uitsluitend voor noodstops bij pech of gevaar. Rijden is verboden."},
 
-  // ===== CATEGORIE: Rijbaan =====
-  {cat:"Rijbaan", q:"Op een weg met twee rijstroken in dezelfde richting: welke rijstrook gebruik je normaal?",
-   opts:["De linker rijstrook","De rechter rijstrook","Maakt niet uit, beide zijn gelijkwaardig","Wissel regelmatig af"],
-   correct:1, explain:"Je rijdt in Nederland zo veel mogelijk op de rechter rijstrook. De linker strook is voor inhalen."},
-
-  {cat:"Rijbaan", q:"Je nadert een file op de snelweg. Er zijn twee rijstroken. Hoe doe je een ritssluiting?",
-   opts:["Zoveel mogelijk in de rechterrijstrook rijden tot het einde van de file","In beide rijstroken tot het samenvoegpunt rijden en om beurten invoegen","Altijd in de linkerrijstrook tot het samenvoegpunt","Zo snel mogelijk wisselen van rijstrook"],
-   correct:1, explain:"Bij een ritssluiting rijden alle rijstroken door tot het samenvoegpunt en voegen beurtelings in. Dit is efficiënter dan vroeg inrijden."},
-
-  {cat:"Rijbaan", q:"Een busstrook is aangegeven. Mag jij als personenauto gebruik maken van de busstrook?",
-   opts:["Nooit","Altijd als de bus er niet is","Alleen als er een 'OV' bord staat met daarin ook 'auto'","Ja, buiten de spitsuren"],
-   correct:0, explain:"Een busstrook is exclusief voor bussen (en soms ook trams, taxi's en fietsers zoals aangegeven). Personenauto's mogen er niet op rijden."},
-
-  // ===== CATEGORIE: Milieu =====
   {cat:"Milieu", q:"Wat is een milieuvriendelijke rijstijl?",
-   opts:["Zo snel mogelijk accelereren en dan afremmen","Soepel accelereren, hoge versnelling gebruiken en vooruit denken","Altijd op lage toeren rijden","Zo min mogelijk de rem gebruiken door hoog te remmen"],
-   correct:1, explain:"Milieuvriendelijk rijden: soepel optrekken, vroegtijdig naar de hoge versnelling, vooruitkijken en anticiperen zodat je minder afremt."},
+   opts:["Snel accelereren en dan afremmen","Soepel accelereren, hoge versnelling, vooruit kijken","Altijd op lage toeren","Zo min mogelijk remmen door hoog te remmen"],
+   correct:1, explain:"Eco rijden: soepel optrekken, vroeg naar hoge versnelling, anticiperen zodat je minder afremt."},
+  {cat:"Milieu", q:"Wanneer is het beter de motor uit te zetten?",
+   opts:["Nooit, slecht voor motor","Bij stilstand van meer dan 1 à 2 minuten","Alleen boven 20 graden","Altijd in de stad"],
+   correct:1, explain:"Meer dan 1-2 minuten stilstaan? Motor uit. Stationair draaien verspilt brandstof."},
+  {cat:"Milieu", q:"Meest zuinige rijwijze bij nadering rood licht?",
+   opts:["Gas vast tot vlak bij het licht, dan remmen","Ver van tevoren gas loslaten en uitrollen","Zo snel afremmen en dan optrekken","Licht afwachten en dan gas geven"],
+   correct:1, explain:"Gas loslaten en uitrollen (engine braking) verbruikt minder dan gas vasthouden en dan remmen."},
 
-  {cat:"Milieu", q:"Wanneer is het beter om de motor uit te zetten?",
-   opts:["Nooit, dit is slecht voor de motor","Als je langer dan 1 à 2 minuten stilstaat","Alleen bij temperaturen boven 20 graden","Altijd in de stad"],
-   correct:1, explain:"Als je langer dan 1 à 2 minuten stilstaat is het zuiniger en milieuvriendelijker om de motor uit te zetten. Stationair draaien verbruikt onnodige brandstof."},
+  {cat:"Voertuig", q:"Gevolgen van te lage bandenspanning?",
+   opts:["Auto rijdt sneller","Gevaarlijker remmen en hoger brandstofverbruik","Alleen meer slijtage","Weinig verschil"],
+   correct:1, explain:"Te lage spanning: slechter rijgedrag, langere remweg, klapbandrisico, meer brandstof."},
+  {cat:"Voertuig", q:"De motortemperatuurmeter gaat in het rood. Wat doe je?",
+   opts:["Zo lang mogelijk doorrijden","Direct stoppen, motor uit en laten afkoelen","Harder rijden voor koeling","Water op de motor gieten"],
+   correct:1, explain:"Overkokende motor = ernstige schade. Stop direct op veilige plek, motor uit, laten afkoelen."},
+  {cat:"Voertuig", q:"Je remmen voelen slap aan. Wat doe je?",
+   opts:["Langzaam naar huis","Direct stoppen en hulp inschakelen","Pompen om remdruk op te bouwen","Doorgaan, normaal"],
+   correct:1, explain:"Slappe remmen = lucht in remleiding of lekkage. Gevaarlijk. Stop direct en laat controleren."},
+  {cat:"Voertuig", q:"Hoe vaak controleer je de motorolie?",
+   opts:["Elke dag","Maandelijks of voor een lange rit","Alleen bij APK","Nooit, moderne auto's doen dat zelf"],
+   correct:1, explain:"Olie maandelijks of voor lange rit controleren. Te weinig olie = motorschade."},
+  {cat:"Voertuig", q:"Je APK-keuring is 2 maanden verlopen. Mag je rijden?",
+   opts:["Ja, 3 maanden gedoogperiode","Nee, verboden en verzekering kan ongeldig zijn","Ja, alleen binnen bebouwde kom","Nee, maar boete is max €75"],
+   correct:1, explain:"Rijden zonder geldig APK is verboden. Verzekering kan weigeren schade te vergoeden."},
 
-  // ===== CATEGORIE: Voertuig =====
-  {cat:"Voertuig", q:"Je bandenspanning is te laag. Wat zijn de gevolgen?",
-   opts:["De auto rijdt sneller","Het remmen wordt gevaarlijker en het brandstofverbruik stijgt","Alleen de slijtage van de band neemt toe","Het maakt weinig verschil voor het rijgedrag"],
-   correct:1, explain:"Te lage bandenspanning verslechtert het rijgedrag en de remweg, vergroot de kans op een klapband en verhoogt het brandstofverbruik."},
+  {cat:"Gevaarherkenning", q:"Je ziet een bal rollen in een woonwijk. Wat doe je?",
+   opts:["Rijden en toeterend waarschuwen","Vaart minderen en anticiperen op kind erachter","Stoppen tot bal weg is","Naar links uitwijken"],
+   correct:1, explain:"Rollende bal = mogelijk kind erachter. Vertraag en wees klaar om te stoppen."},
+  {cat:"Gevaarherkenning", q:"Je voelt dat je auto begint te slippen. Wat doe je?",
+   opts:["Hard remmen","Sturen in gewenste rijrichting en rustig gas minderen","Stuur loslaten","Meteen naar links sturen"],
+   correct:1, explain:"Bij slippen: stuur in de richting die je wilt, gas minderen, NIET hard remmen."},
+  {cat:"Gevaarherkenning", q:"Een tegenligger rijdt op jouw rijstrook. Wat doe je?",
+   opts:["Claxonneren en gas geven","Vaart minderen, naar rechts en klaar om te stoppen","Naar links om ruimte te geven","Lichten flitsen"],
+   correct:1, explain:"Zo ver mogelijk naar rechts, snelheid verminderen en klaar zijn om te stoppen."},
+  {cat:"Gevaarherkenning", q:"De auto voor je remt plotseling op de snelweg. Eerste reactie?",
+   opts:["Naar links uitwijken","Direct hard remmen","Kort in spiegel kijken en dan gecontroleerd remmen","Toeterend waarschuwen"],
+   correct:2, explain:"Eerst kort in spiegel (is er iemand naast je?), dan gecontroleerd remmen."},
+  {cat:"Gevaarherkenning", q:"Je nadert een school om 8:30. Wat is het gevaar?",
+   opts:["Geen extra gevaar","Kinderen die onverwacht oversteken","Vrachtwagens laden/lossen","Geparkeerde fietsen"],
+   correct:1, explain:"Kinderen kunnen verkeer slecht inschatten. Extra voorzichtig en langzamer."},
+  {cat:"Gevaarherkenning", q:"Je rijdt 's avonds. Je ziet een fietser zonder licht. Wat doe je?",
+   opts:["Claxonneren en inhalen","Vaart minderen en voorzichtig inhalen met voldoende ruimte","Groot licht aan en doorrijden","Stoppen en aanspreken"],
+   correct:1, explain:"Verminder snelheid en houd ruim 1,5 meter afstand. Fietser zonder licht kan schrikken."},
+  {cat:"Gevaarherkenning", q:"Je rijdt in een bos met veel bochten. Grootste gevaar?",
+   opts:["Vallende takken","Beperkt zicht in bochten en wild op de weg","Glad door bladeren","Onverharde bermen"],
+   correct:1, explain:"Beperkt zicht + wild (herten, zwijnen) op de weg. Rijdt voorzichtiger dan de limiet vereist."},
+  {cat:"Gevaarherkenning", q:"Je rijdt achter een schoolbus met knipperende gele lichten. Wat doe je?",
+   opts:["Rustig langs rijden","Stoppen achter de bus tot gele lichten uit zijn","Inhalen als geen kinderen zichtbaar","Claxonneren"],
+   correct:1, explain:"Gele knipperlichten schoolbus = kinderen in/uitstappen. Wacht tot situatie veilig is."},
 
-  {cat:"Voertuig", q:"Je ziet de motortemperatuurmeter in het rood gaan. Wat doe je?",
-   opts:["Rijden zo lang mogelijk doorgaan","Direct stoppen, motor uitzetten en laten afkoelen","Harder rijden zodat de lucht de motor koelt","Water op de motor gieten"],
-   correct:1, explain:"Een overkokende motor veroorzaakt ernstige schade. Stop direct op een veilige plek, zet de motor uit en laat hem afkoelen voor je verder rijdt."},
-
-  {cat:"Voertuig", q:"Je remmen voelen 'slap' aan (langere pedaalweg). Wat doe je?",
-   opts:["Langzamer rijden tot je thuis bent","Direct stoppen en hulp inschakelen","Even hard op het pedaal pompen om de remmen op te bouwen","Doorgaan, dit is normaal"],
-   correct:1, explain:"Slappe remmen kunnen duiden op lucht in de remleiding of een lekkage. Dit is gevaarlijk. Stop direct en laat je voertuig controleren."},
-
-  // ===== CATEGORIE: Gevaarherkenning =====
-  {cat:"Gevaarherkenning", q:"Je rijdt in een woonwijk. Tussen geparkeerde auto's zie je een bal rollen. Wat doe je?",
-   opts:["Rijden en toeterend waarschuwen","Vaart minderen en anticiperen op een kind dat achter de bal aan rent","Stoppen tot de bal van de weg af is","Naar links uitwijken"],
-   correct:1, explain:"Een rollende bal in een woonwijk is een gevaarssignaal: er kan een kind achteraan rennen. Vertraag en bereid je voor om te stoppen."},
-
-  {cat:"Gevaarherkenning", q:"Je rijdt op een glibberige weg. Je voelt dat de auto begint te slippen. Wat doe je?",
-   opts:["Hard remmen om snel te stoppen","Sturen in de rijrichting die je wilt en rustig gas minderen, niet remmen","Het stuur loslaten zodat de auto zelf recht rijdt","Meteen naar links sturen"],
-   correct:1, explain:"Bij slippen: stuur in de richting die je wilt, gas minderen maar niet hard remmen (ABS-auto's uitgezonderd). Correcties rustig en gedoseerd uitvoeren."},
-
-  {cat:"Gevaarherkenning", q:"Je rijdt op een provinciale weg. Een tegenligger rijdt gedeeltelijk op jouw rijstrook. Wat doe je?",
-   opts:["Claxonneren en gas geven","Vaart minderen, naar rechts gaan en klaar zijn om te stoppen","Naar links rijden om hem de ruimte te geven","Lichten flitsen en doorrijden"],
-   correct:1, explain:"Ga zo ver mogelijk naar rechts, verminder snelheid en wees klaar om te stoppen. Vermijd manoeuvres die de situatie gevaarlijker maken."},
-
-  {cat:"Gevaarherkenning", q:"Je rijdt op de snelweg. De auto voor je remt plotseling. Wat is jouw eerste reactie?",
-   opts:["Naar links uitwijken","Direct hard remmen","Eerst controleren in je spiegels en dan remmen","Toeterend waarschuwen"],
-   correct:2, explain:"Controleer eerst kort je spiegel (is er iemand naast je?), dan rem je gecontroleerd. Bij noodremming voert de reactie soms uit zichzelf."},
-
-  {cat:"Gevaarherkenning", q:"Je nadert een school om 08:30 uur. Wat is de verhoogde kans op gevaar?",
-   opts:["Geen extra gevaar","Kinderen die onverwacht de weg oversteken","Vrachtwagens die laden en lossen","Fietsen geparkeerd op de rijbaan"],
-   correct:1, explain:"Bij scholen zijn kinderen minder goed in het inschatten van verkeersgevaar. Rijd extra voorzichtig en langzamer, en anticipeer op onverwachte bewegingen."},
-
-  {cat:"Gevaarherkenning", q:"Je rijdt 's avonds op een onverlichte weg. Je ziet een fietser zonder licht. Wat doe je?",
-   opts:["Claxonneren en snel inhalen","Vaart minderen en voorzichtig inhalen met voldoende afstand","Groot licht aanzetten en doorrijden","Stoppen en de fietser aanspreken"],
-   correct:1, explain:"Verminder snelheid en houd voldoende zijdelingse afstand bij het inhalen. Een fietser zonder licht is moeilijk te zien en kan schrikken."},
-
-  // ===== CATEGORIE: Rijbewijs & Regels =====
-  {cat:"Regels", q:"Hoe lang is een rijbewijs B in Nederland geldig?",
+  {cat:"Regels", q:"Hoe lang is rijbewijs B geldig in Nederland?",
    opts:["5 jaar","10 jaar","Tot je 70e","Onbeperkt"],
-   correct:1, explain:"Een rijbewijs B (auto) is in Nederland 10 jaar geldig. Daarna moet je hem verlengen."},
-
+   correct:1, explain:"Rijbewijs B is in Nederland 10 jaar geldig. Daarna verlengen."},
   {cat:"Regels", q:"Je bent betrokken bij een aanrijding. Wat ben je verplicht te doen?",
-   opts:["Direct wegrijden als er geen schade is","Stoppen, gegevens uitwisselen en zo nodig politie inschakelen","Foto's maken en wegrijden","Alleen stoppen als er gewonden zijn"],
-   correct:1, explain:"Je bent verplicht te stoppen, je gegevens en die van je verzekering te verstrekken aan de andere betrokkene(n). Bij gewonden bel je 112."},
-
-  {cat:"Regels", q:"Moet je een gordel dragen als je alleen op de achterbank zit?",
-   opts:["Nee, op de achterbank is het niet verplicht","Ja, de gordelplicht geldt op alle zitplaatsen","Alleen op snelwegen","Alleen bij speeds boven 50 km/u"],
-   correct:1, explain:"De gordelplicht geldt in Nederland voor alle inzittenden, zowel voor- als achterin, op alle wegen."},
-
+   opts:["Wegrijden als geen schade","Stoppen, gegevens uitwisselen, bij letsel 112 bellen","Foto's maken en wegrijden","Alleen stoppen bij gewonden"],
+   correct:1, explain:"Verplicht: stoppen, gegevens + verzekering uitwisselen. Bij gewonden: 112 bellen."},
+  {cat:"Regels", q:"Moet je gordel dragen op de achterbank?",
+   opts:["Nee, achterin niet verplicht","Ja, gordelplicht geldt op alle zitplaatsen","Alleen op snelwegen","Alleen boven 50 km/u"],
+   correct:1, explain:"Gordelplicht geldt in Nederland voor alle inzittenden, voor- en achterin."},
   {cat:"Regels", q:"Mag je een mobiele telefoon vasthouden tijdens het rijden?",
-   opts:["Ja, als je langzaam rijdt","Ja, als je maar een kort gesprekje voert","Nee, vasthouden van een mobiele telefoon tijdens het rijden is verboden","Nee, tenzij je handsfree kunt bellen via speakerfunctie"],
-   correct:2, explain:"Het is verboden een mobiele telefoon (of ander handheld apparaat) vast te houden tijdens het rijden. Handsfree bellen via carkit of Bluetooth mag wel."},
-
-  {cat:"Regels", q:"Wat is rijden met een ingetrokken rijbewijs?",
-   opts:["Alleen een bestuursrechtelijke overtreding","Een strafbaar feit waar je voor vervolgd kunt worden","Toegestaan als je naar je werk moet","Niet strafbaar als je voorzichtig rijdt"],
-   correct:1, explain:"Rijden met een ongeldig of ingevorderd rijbewijs is een strafbaar feit. Je kunt worden vervolgd en een boete of gevangenisstraf krijgen."},
-
-  // ===== EXTRA VRAGEN =====
-  {cat:"Voorrang", q:"Op een kruising met verkeerslichten staat het licht op oranje. Wat doe je?",
-   opts:["Versnellen om de kruising over te steken","Stoppen als dit veilig mogelijk is","Alleen stoppen als er politie in de buurt is","Doorrijden want oranje is geen verbod"],
-   correct:1, explain:"Oranje (geel) betekent: stop, tenzij stoppen niet meer veilig mogelijk is. Het is geen signaal om te versnellen."},
-
-  {cat:"Snelheid", q:"Een 30 km/u zone begint met een bord met '30' omcirkeld in rood. Waar eindigt de zone?",
-   opts:["Bij het einde van de straat","Bij een bord met doorgestreepte '30'","Bij een bord '50'","Bij de eerste kruising"],
-   correct:2, explain:"Een zone begint en eindigt met specifieke borden. De 30 km/u zone eindigt bij een bord met de doorstreepte 30, of bij een ander snelheidsbord."},
-
-  {cat:"Rijbaan", q:"Je rijdt op een autosnelweg. Mag je keren op de autosnelweg?",
-   opts:["Ja, via de vluchtstrook","Nee, keren is verboden op een autosnelweg","Ja, als er geen verkeer is","Ja, via een nooduitgang"],
-   correct:1, explain:"Keren op een autosnelweg is verboden en gevaarlijk."},
-
-  {cat:"Rijbaan", q:"Wat is de vluchtstrook op een snelweg voor?",
-   opts:["Voor langzaam verkeer","Voor inhalen bij drukte","Voor pechgevallen en noodstops","Voor fietsers en brommers"],
-   correct:2, explain:"De vluchtstrook is uitsluitend bedoeld voor noodstops bij pech of gevaar. Rijden op de vluchtstrook is verboden."},
-
-  {cat:"Lichten", q:"Wanneer moet je stadslichten (parkeerlichten) gebruiken in plaats van dimlichten?",
-   opts:["Altijd binnen de bebouwde kom","Nooit, stadslichten zijn verboden tijdens het rijden","Op goed verlichte wegen binnen de bebouwde kom mogen stadslichten worden gebruikt","Alleen bij minder dan 50 meter zicht"],
-   correct:2, explain:"Op goed verlichte wegen binnen de bebouwde kom mogen stadslichten worden gebruikt. Buiten de bebouwde kom zijn dimlichten of groot licht verplicht."},
-
-  {cat:"Gevaarherkenning", q:"Je rijdt over een weg met veel bochten in een bos. Wat is het grootste gevaar?",
-   opts:["Vallende takken","Beperkt zicht in de bochten en mogelijk wild op de weg","Glad wegdek door bladeren","Onverharde wegbermen"],
-   correct:1, explain:"In een bosrijke omgeving met bochten is het zicht beperkt. Bovendien kan er wild (herten, zwijnen) de weg oplopen. Rij voorzichtig."},
-
-  {cat:"Afstand", q:"Voor je staat een vrachtwagen. Je staat in zijn dode hoek. Wat doe je?",
-   opts:["Dicht achter hem blijven zodat hij je ziet","Inhalen zodra het kan, anders blijf je op veilige afstand rijden waar de chauffeur je kan zien","Claxonneren zodat hij weet dat je er bent","Naar de linkerbaan gaan"],
-   correct:1, explain:"De dode hoek van een vrachtwagen is groot. Als je niet in zijn spiegel zichtbaar bent, bestaat risico bij zijn manoeuvres. Inhalen (veilig) of op zichtbare afstand blijven."},
-
-  {cat:"Verkeersborden", q:"Een bord met een rode rand en een vrachtauto erop (doorgestreept) betekent:",
-   opts:["Parkeerverbod voor vrachtwagens","Vrachtwagens mogen dit gedeelte niet in","Vrachtwagens hebben voorrang","Maximumgewicht voor voertuigen"],
-   correct:1, explain:"Een doorgestreepte afbeelding op een verbodsbord (rode rand) betekent verbod. Vrachtwagens mogen de weg of zone niet op."},
-
-  {cat:"Regels", q:"Je oogt ziek en je rijdt aanzienlijk trager dan normaal vanwege medicijnen. Wat geldt?",
-   opts:["Je mag rijden als je maar voorzichtig bent","Als medicijnen de rijvaardigheid beïnvloeden, mag je niet rijden","Alleen voorgeschreven medicijnen zijn toegestaan","Je mag rijden als het drukker dan een uur geleden is"],
-   correct:1, explain:"Bepaalde medicijnen (zoals slaappillen, antihistaminica, sommige pijnstillers) beïnvloeden de rijvaardigheid. Als dit het geval is, mag je niet rijden."},
-
-  {cat:"Voorrang", q:"Een tram en een auto naderen dezelfde kruising tegelijk. Wie heeft voorrang?",
-   opts:["De auto, want die was eerder","De tram, trams hebben altijd voorrang tenzij anders aangegeven","Ze rijden gelijktijdig door","Degene van rechts heeft voorrang"],
-   correct:1, explain:"Trams hebben in het algemeen voorrang op ander verkeer, ook als ze van links komen."},
-
-  {cat:"Inhalen", q:"Je bent een ander voertuig aan het inhalen. Het voertuig achter jou begint ook in te halen. Wat doe je?",
-   opts:["Direct teruggaan naar rechts","Je inhalactie voltooien zo snel als veilig mogelijk is","Stoppen om de ander door te laten","Niets doen, het is het probleem van die bestuurder"],
-   correct:1, explain:"Voltooien is veiliger dan abrupt afbreken. Maar doe het zo snel en veilig mogelijk en let op de situatie voor je."},
-
-  {cat:"Gevaarherkenning", q:"Je rijdt achter een schoolbus die stopt met knipperende gele lichten. Wat doe je?",
-   opts:["Rustig langs rijden","Stoppen achter de bus en wachten tot de gele lichten uitgaan en kinderen veilig over zijn","Inhalen als er geen kinderen zichtbaar zijn","Claxonneren om de kinderen te waarschuwen"],
-   correct:1, explain:"Knipperende gele lichten op een schoolbus geven aan dat kinderen in/uitstappen. Wacht tot de situatie veilig is."},
-
-  {cat:"Snelheid", q:"Het is glad door ijzel. Je rijdt normaal 80 km/u op deze weg. Wat doe je nu?",
-   opts:["Je rijdt gewoon 80 km/u, de auto heeft ABS","Je past je snelheid aan en rijdt aanzienlijk langzamer","Je rijdt iets langzamer, max 60 km/u","Je zet vier wielen aandrijving aan en rijdt gewoon door"],
-   correct:1, explain:"Bij ijzel is de remweg enorm verlengd, ook met ABS. Je moet je snelheid sterk aanpassen aan de omstandigheden."},
-
-  {cat:"Milieu", q:"Wat is de meest brandstofzuinige manier van rijden bij nadering van een rood licht?",
-   opts:["Gas vasthouden tot je vlak bij het licht bent, dan remmen","Ver van tevoren het gas loslaten en uitrollen","Zo snel mogelijk afremmen en dan optrekken","Het licht afwachten en dan hard optrekken"],
-   correct:1, explain:"Loslaten van het gas (engine braking) en uitrollen verbruikt minder brandstof dan gas houden en daarna remmen."},
-
-  {cat:"Voertuig", q:"Hoe vaak moet je de olie in je auto controleren?",
-   opts:["Elke dag","Elke maand of voor een lange rit","Alleen bij de APK","Nooit, moderne auto's hebben automatische oliecontrole"],
-   correct:1, explain:"Controleer de olie minimaal maandelijks of voor een lange rit. Te weinig olie leidt tot motorschade."},
-
-  {cat:"Regels", q:"Je auto heeft een APK-keuring die 2 maanden geleden is verlopen. Mag je rijden?",
-   opts:["Ja, nog 3 maanden na verlopen is er een gedoogperiode","Nee, rijden zonder geldig APK-bewijs is verboden en de auto is niet gedekt door de verzekering","Ja, maar alleen binnen de bebouwde kom","Nee, maar er is een boete van max €75"],
-   correct:1, explain:"Rijden zonder geldig APK is verboden. Bovendien kan je verzekering weigeren schade te vergoeden als de keuring verlopen is."}
-
+   opts:["Ja als je langzaam rijdt","Ja voor een kort gesprek","Nee, vasthouden is verboden","Nee, tenzij speakerfunctie"],
+   correct:2, explain:"Telefoon vasthouden tijdens rijden is verboden. Handsfree bellen via carkit of Bluetooth mag."},
+  {cat:"Regels", q:"Rijden met een ingetrokken rijbewijs is:",
+   opts:["Alleen bestuursrechtelijk","Een strafbaar feit","Toegestaan als je naar je werk moet","Niet strafbaar als je voorzichtig rijdt"],
+   correct:1, explain:"Rijden met ongeldig rijbewijs is een strafbaar feit. Je kunt vervolgd worden."},
+  {cat:"Regels", q:"Welke medicijnen beÃ¯nvloeden de rijvaardigheid?",
+   opts:["Geen enkel medicijn","Alleen niet-voorgeschreven medicijnen","Sommige, zoals slaappillen en antihistaminica","Alleen bij overdosis"],
+   correct:2, explain:"Slaappillen, antihistaminica en sommige pijnstillers beÃ¯nvloeden het rijgedrag. Check de bijsluiter."}
 ];
 
 // ============================================================
-// CATEGORIEËN
+// CATEGORIES
 // ============================================================
 const CATEGORIES = [
-  { id:"Voorrang",      icon:"🚦", color:"#ef4444" },
-  { id:"Snelheid",      icon:"⚡", color:"#f59e0b" },
-  { id:"Verkeersborden",icon:"🛑", color:"#3b82f6" },
-  { id:"Inhalen",       icon:"🏎️", color:"#8b5cf6" },
-  { id:"Lichten",       icon:"💡", color:"#06b6d4" },
-  { id:"Afstand",       icon:"📏", color:"#10b981" },
-  { id:"Alcohol & Drugs",icon:"🚫", color:"#dc2626" },
-  { id:"Parkeren",      icon:"🅿️", color:"#6366f1" },
-  { id:"Rijbaan",       icon:"🛣️", color:"#0891b2" },
-  { id:"Milieu",        icon:"🌿", color:"#16a34a" },
-  { id:"Voertuig",      icon:"🔧", color:"#d97706" },
-  { id:"Gevaarherkenning",icon:"⚠️", color:"#b45309" },
-  { id:"Regels",        icon:"📋", color:"#7c3aed" },
+  { id:"Voorrang",        icon:"ð¦", color:"#ef4444" },
+  { id:"Snelheid",        icon:"â¡", color:"#f59e0b" },
+  { id:"Verkeersborden",  icon:"ð", color:"#3b82f6" },
+  { id:"Inhalen",         icon:"ðï¸", color:"#8b5cf6" },
+  { id:"Lichten",         icon:"ð¡", color:"#06b6d4" },
+  { id:"Afstand",         icon:"ð", color:"#10b981" },
+  { id:"Alcohol & Drugs", icon:"ð«", color:"#dc2626" },
+  { id:"Parkeren",        icon:"ð¿ï¸", color:"#6366f1" },
+  { id:"Rijbaan",         icon:"ð£ï¸", color:"#0891b2" },
+  { id:"Milieu",          icon:"ð¿", color:"#16a34a" },
+  { id:"Voertuig",        icon:"ð§", color:"#d97706" },
+  { id:"Gevaarherkenning",icon:"â ï¸", color:"#b45309" },
+  { id:"Regels",          icon:"ð", color:"#7c3aed" },
 ];
 
 // ============================================================
@@ -935,290 +1030,188 @@ let state = {
   catProgress: {},
   session: { questions:[], current:0, correct:0, wrong:0, streak:0, maxStreak:0, xpEarned:0, isExam:false, cat:"" }
 };
-
-function loadState() {
-  try {
-    const s = localStorage.getItem('cbrState');
-    if (s) state = JSON.parse(s);
-  } catch(e) {}
-}
-function saveState() {
-  try { localStorage.setItem('cbrState', JSON.stringify(state)); } catch(e) {}
-}
+function loadState() { try { const s = localStorage.getItem("cbrStateV2"); if (s) state = JSON.parse(s); } catch(e){} }
+function saveState() { try { localStorage.setItem("cbrStateV2", JSON.stringify(state)); } catch(e){} }
 
 // ============================================================
 // INIT
 // ============================================================
-function init() {
-  loadState();
-  renderHome();
-}
+function init() { loadState(); renderHome(); }
 
 function renderHome() {
-  document.getElementById('xpDisplay').textContent = state.xp;
-  document.getElementById('statTotal').textContent = state.totalAnswered;
-  document.getElementById('statCorrect').textContent = state.totalCorrect;
-  document.getElementById('statStreak').textContent = state.maxStreak;
-  document.getElementById('timerWrap').classList.remove('exam-mode');
-
-  const grid = document.getElementById('categoryGrid');
-  grid.innerHTML = '';
-
+  document.getElementById("xpDisplay").textContent = state.xp;
+  document.getElementById("statTotal").textContent = state.totalAnswered;
+  document.getElementById("statCorrect").textContent = state.totalCorrect;
+  document.getElementById("statStreak").textContent = state.maxStreak;
+  document.getElementById("timerWrap").classList.remove("exam-mode");
+  const grid = document.getElementById("categoryGrid");
+  grid.innerHTML = "";
   CATEGORIES.forEach(cat => {
     const qs = QUESTIONS.filter(q => q.cat === cat.id);
     if (!qs.length) return;
     const prog = state.catProgress[cat.id] || { done:0, correct:0 };
     const pct = qs.length > 0 ? Math.round((prog.correct / qs.length) * 100) : 0;
-
-    const card = document.createElement('div');
-    card.className = 'cat-card';
+    const card = document.createElement("div");
+    card.className = "cat-card";
     card.innerHTML = `
       <div class="cat-icon">${cat.icon}</div>
       <div class="cat-info">
         <div class="cat-name" style="color:${cat.color}">${cat.id}</div>
-        <div class="cat-sub">${qs.length} vragen • ${pct}% goed</div>
-        <div class="cat-progress">
-          <div class="cat-progress-fill" style="width:${pct}%; background: linear-gradient(90deg, ${cat.color}88, ${cat.color})"></div>
-        </div>
+        <div class="cat-sub">${qs.length} vragen &bull; ${pct}% goed</div>
+        <div class="cat-progress"><div class="cat-progress-fill" style="width:${pct}%;background:linear-gradient(90deg,${cat.color}88,${cat.color})"></div></div>
       </div>
-      <div class="cat-arrow">›</div>`;
-    card.onclick = () => startCategory(cat.id);
+      <div class="cat-btns">
+        <button class="cat-btn-learn" onclick="event.stopPropagation();showTheory('${cat.id}')">ð Leer</button>
+        <button class="cat-btn-quiz" onclick="event.stopPropagation();startCategory('${cat.id}')">â¶ Oefen</button>
+      </div>`;
     grid.appendChild(card);
   });
 }
 
 // ============================================================
-// START SESSION
+// THEORY SCREEN
 // ============================================================
+function showTheory(catId) {
+  const cat = CATEGORIES.find(c => c.id === catId);
+  const t = THEORY[catId];
+  if (!t) { startCategory(catId); return; }
+  document.getElementById("theoryCatTitle").innerHTML = `${cat ? cat.icon : ""} ${catId}`;
+  const ytUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(t.ytSearch)}`;
+  const rulesHtml = t.rules.map(r => `<div class="theory-rule">${r}</div>`).join("");
+  document.getElementById("theoryContent").innerHTML = `
+    <div class="theory-svg-wrap">${t.svg}</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <button class="tts-btn" onclick="speakTheory('${catId}',this)">ð Lees voor</button>
+      <a href="${ytUrl}" target="_blank" style="flex:1;text-decoration:none;">
+        <button class="yt-btn" style="margin:0;width:100%;">â¶ YouTube uitleg</button>
+      </a>
+    </div>
+    <div class="theory-rules">${rulesHtml}</div>
+    <button class="start-quiz-btn" onclick="startCategory('${catId}')">â¶ Start oefenvragen</button>`;
+  showScreen("theoryScreen");
+}
+
+// ============================================================
+// QUIZ
+// ============////////////////////////////////////////////////
 function startCategory(catId) {
   const qs = shuffle(QUESTIONS.filter(q => q.cat === catId));
   beginSession(qs, false, catId);
 }
-
 function startExam() {
   const qs = shuffle([...QUESTIONS]).slice(0, Math.min(65, QUESTIONS.length));
   beginSession(qs, true, "Oefenexamen");
 }
-
 function beginSession(qs, isExam, cat) {
-  state.session = {
-    questions: qs, current: 0, correct: 0, wrong: 0,
-    streak: 0, maxStreak: 0, xpEarned: 0, isExam, cat
-  };
-  showScreen('quizScreen');
-  if (isExam) {
-    startTimer(25 * 60);
-  } else {
-    clearInterval(timerInterval);
-    document.getElementById('timerWrap').classList.remove('exam-mode');
-  }
+  state.session = { questions: qs, current: 0, correct: 0, wrong: 0, streak: 0, maxStreak: 0, xpEarned: 0, isExam, cat };
+  showScreen("quizScreen");
+  if (isExam) { startTimer(25 * 60); } else { clearInterval(timerInterval); document.getElementById("timerWrap").classList.remove("exam-mode"); }
   showQuestion();
 }
-
-// ============================================================
-// TIMER
-// ============================================================
-let timerInterval = null;
-let timerSeconds = 0;
+let timerInterval = null, timerSeconds = 0;
 function startTimer(sec) {
   timerSeconds = sec;
-  document.getElementById('timerWrap').classList.add('exam-mode');
+  document.getElementById("timerWrap").classList.add("exam-mode");
   clearInterval(timerInterval);
   updateTimerDisplay();
-  timerInterval = setInterval(() => {
-    timerSeconds--;
-    updateTimerDisplay();
-    if (timerSeconds <= 0) { clearInterval(timerInterval); finishSession(); }
-  }, 1000);
+  timerInterval = setInterval(() => { timerSeconds--; updateTimerDisplay(); if (timerSeconds <= 0) { clearInterval(timerInterval); finishSession(); } }, 1000);
 }
 function updateTimerDisplay() {
-  const m = Math.floor(timerSeconds / 60);
-  const s = timerSeconds % 60;
-  document.getElementById('timerText').textContent = `${m}:${s.toString().padStart(2,'0')}`;
-  if (timerSeconds < 120) document.getElementById('timerText').style.color = 'var(--red)';
+  const m = Math.floor(timerSeconds / 60), s = timerSeconds % 60;
+  document.getElementById("timerText").textContent = `${m}:${s.toString().padStart(2,"0")}`;
+  if (timerSeconds < 120) document.getElementById("timerText").style.color = "var(--red)";
 }
-
-// ============================================================
-// QUESTIONS
-// ============================================================
 function showQuestion() {
-  const sess = state.session;
-  const q = sess.questions[sess.current];
-  const total = sess.questions.length;
+  const sess = state.session, q = sess.questions[sess.current], total = sess.questions.length;
   const pct = (sess.current / total) * 100;
-
-  document.getElementById('quizProgressFill').style.width = pct + '%';
-  document.getElementById('quizCounter').textContent = `Vraag ${sess.current + 1} van ${total}`;
-  document.getElementById('streakBadge').textContent = `🔥 ${sess.streak}`;
-  document.getElementById('questionCat').textContent = q.cat;
-  document.getElementById('questionText').textContent = q.q;
-
-  const optWrap = document.getElementById('optionsWrap');
-  optWrap.innerHTML = '';
-  const letters = ['A','B','C','D'];
+  document.getElementById("quizProgressFill").style.width = pct + "%";
+  document.getElementById("quizCounter").textContent = `Vraag ${sess.current + 1} van ${total}`;
+  document.getElementById("streakBadge").textContent = `ð¥ ${sess.streak}`;
+  document.getElementById("questionCat").textContent = q.cat;
+  document.getElementById("questionText").textContent = q.q;
+  const svgWrap = document.getElementById("questionSvg");
+  svgWrap.innerHTML = q.svg ? q.svg : "";
+  const optWrap = document.getElementById("optionsWrap");
+  optWrap.innerHTML = "";
+  const letters = ["A","B","C","D"];
   q.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
     btn.innerHTML = `<div class="option-letter">${letters[i]}</div><span>${opt}</span>`;
     btn.onclick = () => selectAnswer(i, btn);
     optWrap.appendChild(btn);
   });
-
-  const fb = document.getElementById('feedbackCard');
-  fb.style.display = 'none';
-  fb.className = 'feedback-card';
-  document.getElementById('nextBtn').style.display = 'none';
-
-  // Animate in
-  const qCard = document.getElementById('questionCard');
-  qCard.classList.remove('slide-in');
-  void qCard.offsetWidth;
-  qCard.classList.add('slide-in');
+  const fb = document.getElementById("feedbackCard");
+  fb.style.display = "none"; fb.className = "feedback-card";
+  document.getElementById("nextBtn").style.display = "none";
+  const qCard = document.getElementById("questionCard");
+  qCard.classList.remove("slide-in"); void qCard.offsetWidth; qCard.classList.add("slide-in");
 }
-
 function selectAnswer(idx, btn) {
-  const sess = state.session;
-  const q = sess.questions[sess.current];
-  const isCorrect = idx === q.correct;
-  const allBtns = document.querySelectorAll('.option-btn');
-
+  const sess = state.session, q = sess.questions[sess.current], isCorrect = idx === q.correct;
+  const allBtns = document.querySelectorAll(".option-btn");
   allBtns.forEach(b => b.disabled = true);
-  allBtns[q.correct].classList.add('correct');
-  if (!isCorrect) btn.classList.add('wrong');
-
-  const fb = document.getElementById('feedbackCard');
+  allBtns[q.correct].classList.add("correct");
+  if (!isCorrect) btn.classList.add("wrong");
+  const fb = document.getElementById("feedbackCard");
+  const icon = isCorrect ? "â" : "â";
+  const prefix = isCorrect ? "<strong>Goed!</strong> " : "<strong>Fout.</strong> ";
+  document.getElementById("feedbackText").innerHTML = icon + " " + prefix + q.explain;
+  fb.className = "feedback-card " + (isCorrect ? "correct" : "wrong");
   if (isCorrect) {
-    fb.className = 'feedback-card correct';
-    fb.innerHTML = `<div class="feedback-icon">✅</div><strong>Goed!</strong> ${q.explain}`;
-    sess.correct++;
-    sess.streak++;
-    sess.xpEarned += 10;
+    sess.correct++; sess.streak++; sess.xpEarned += 10;
     if (sess.streak > sess.maxStreak) sess.maxStreak = sess.streak;
     state.totalCorrect++;
-    showXPToast('+10 XP');
-    // Update cat progress
+    showXPToast("+10 XP");
     if (!state.catProgress[q.cat]) state.catProgress[q.cat] = { done:0, correct:0 };
     state.catProgress[q.cat].correct++;
-  } else {
-    fb.className = 'feedback-card wrong';
-    fb.innerHTML = `<div class="feedback-icon">❌</div><strong>Fout.</strong> ${q.explain}`;
-    sess.wrong++;
-    sess.streak = 0;
-  }
+  } else { sess.wrong++; sess.streak = 0; }
   if (!state.catProgress[q.cat]) state.catProgress[q.cat] = { done:0, correct:0 };
   state.catProgress[q.cat].done++;
   state.totalAnswered++;
   if (sess.streak > state.maxStreak) state.maxStreak = sess.streak;
-
-  fb.style.display = 'block';
-  document.getElementById('nextBtn').style.display = 'block';
-  document.getElementById('streakBadge').textContent = `🔥 ${sess.streak}`;
+  fb.style.display = "block";
+  document.getElementById("nextBtn").style.display = "block";
+  document.getElementById("streakBadge").textContent = `ð¥ ${sess.streak}`;
   saveState();
 }
-
 function nextQuestion() {
   const sess = state.session;
   sess.current++;
-  if (sess.current >= sess.questions.length) {
-    finishSession();
-  } else {
-    showQuestion();
-  }
+  if (sess.current >= sess.questions.length) finishSession();
+  else showQuestion();
 }
-
-// ============================================================
-// RESULTS
-// ============================================================
 function finishSession() {
   clearInterval(timerInterval);
-  document.getElementById('timerWrap').classList.remove('exam-mode');
-  const sess = state.session;
-  const total = sess.questions.length;
+  document.getElementById("timerWrap").classList.remove("exam-mode");
+  const sess = state.session, total = sess.questions.length;
   const pct = total > 0 ? Math.round((sess.correct / total) * 100) : 0;
   const pass = sess.isExam ? sess.correct >= 50 : pct >= 70;
-
-  // XP
-  state.xp += sess.xpEarned;
-  if (pass) state.xp += 50;
-  document.getElementById('xpDisplay').textContent = state.xp;
-
-  showScreen('resultsScreen');
-
-  // Icons & text
-  document.getElementById('resultsIcon').textContent = pass ? (pct === 100 ? '🏆' : '🎉') : '📚';
-  const titleEl = document.getElementById('resultsTitle');
-  titleEl.textContent = pass ? 'GESLAAGD!' : 'Nog niet klaar';
-  titleEl.className = 'results-title ' + (pass ? 'pass' : 'fail');
-
-  if (sess.isExam) {
-    document.getElementById('resultsSub').textContent =
-      pass ? `${sess.correct}/65 goed — je haalt je CBR-examen!` : `${sess.correct}/65 goed — je hebt minimaal 50 nodig.`;
-  } else {
-    document.getElementById('resultsSub').textContent =
-      `${pct}% goed in categorie ${sess.cat}`;
-  }
-
-  // Score ring
-  const circumference = 377;
-  const offset = circumference - (pct / 100) * circumference;
-  setTimeout(() => {
-    document.getElementById('ringCircle').style.strokeDashoffset = offset;
-  }, 100);
-  document.getElementById('scorePct').textContent = pct + '%';
-
-  document.getElementById('resCorrect').textContent = sess.correct;
-  document.getElementById('resWrong').textContent = sess.wrong;
-  document.getElementById('resXP').textContent = sess.xpEarned + (pass ? '+50' : '');
-  document.getElementById('resStreak').textContent = sess.maxStreak;
-
-  document.getElementById('retryBtn').textContent =
-    sess.isExam ? '🎯 Nieuw examen' : `🔄 ${sess.cat} opnieuw`;
-
+  state.xp += sess.xpEarned + (pass ? 50 : 0);
+  document.getElementById("xpDisplay").textContent = state.xp;
+  showScreen("resultsScreen");
+  document.getElementById("resultsIcon").textContent = pass ? (pct === 100 ? "ð" : "ð") : "ð";
+  const titleEl = document.getElementById("resultsTitle");
+  titleEl.textContent = pass ? "GESLAAGD!" : "Nog niet klaar";
+  titleEl.className = "results-title " + (pass ? "pass" : "fail");
+  document.getElementById("resultsSub").textContent = sess.isExam
+    ? (pass ? `${sess.correct}/65 goed â je haalt je CBR-examen!` : `${sess.correct}/65 goed â je hebt minimaal 50 nodig.`)
+    : `${pct}% goed in ${sess.cat}`;
+  const offset = 345 - (pct / 100) * 345;
+  setTimeout(() => { document.getElementById("ringCircle").style.strokeDashoffset = offset; }, 100);
+  document.getElementById("scorePct").textContent = pct + "%";
+  document.getElementById("resCorrect").textContent = sess.correct;
+  document.getElementById("resWrong").textContent = sess.wrong;
+  document.getElementById("resXP").textContent = sess.xpEarned + (pass ? "+50" : "");
+  document.getElementById("resStreak").textContent = sess.maxStreak;
+  document.getElementById("retryBtn").textContent = sess.isExam ? "ð¯ Nieuw examen" : `ð ${sess.cat} opnieuw`;
   saveState();
 }
-
-function retrySession() {
-  if (state.session.isExam) startExam();
-  else startCategory(state.session.cat);
-}
-
-// ============================================================
-// NAVIGATION
-// ============================================================
-function goHome() {
-  clearInterval(timerInterval);
-  showScreen('homeScreen');
-  renderHome();
-}
-
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
-
-// ============================================================
-// UTILS
-// ============================================================
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i+1));
-    [a[i],a[j]] = [a[j],a[i]];
-  }
-  return a;
-}
-
-function showXPToast(msg) {
-  const t = document.getElementById('xpToast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 1200);
-}
-
-// ============================================================
-// START
-// ============================================================
+function retrySession() { if (state.session.isExam) startExam(); else startCategory(state.session.cat); }
+function goHome() { clearInterval(timerInterval); showScreen("homeScreen"); renderHome(); }
+function showScreen(id) { document.querySelectorAll(".screen").forEach(s => s.classList.remove("active")); document.getElementById(id).classList.add("active"); window.scrollTo(0,0); }
+function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function showXPToast(msg) { const t=document.getElementById("xpToast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1200); }
 init();
 </script>
 </body>
