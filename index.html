@@ -308,8 +308,6 @@
 // ============================================================
 // CONFIG
 // ============================================================
-const ELEVENLABS_KEY = 'sk_3fe72655c78cfe96308adeff28e1857b9770252c40bdf59c';
-const ELEVENLABS_VOICE = 'NdtOrwerUtgX4njPdLo7';
 
 // ============================================================
 // TTS
@@ -319,54 +317,21 @@ function stripHtml(html) { return html.replace(/<[^>]+>/g, ''); }
 let currentAudio = null;
 let currentBtn = null;
 
-async function speak(text, btnEl) {
-  if (currentAudio && currentBtn === btnEl) {
-    currentAudio.pause();
-    currentAudio = null;
-    if (currentBtn) { currentBtn.textContent = '🔊'; currentBtn.disabled = false; currentBtn = null; }
-    return;
-  }
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-  if (currentBtn) { currentBtn.textContent = '🔊'; currentBtn.disabled = false; }
-  currentBtn = btnEl;
-  if (btnEl) { btnEl.textContent = '⏳'; btnEl.disabled = true; }
-  try {
-    const cleanText = stripHtml(text);
-    const resp = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE}`, {
-      method: 'POST',
-      headers: { 'xi-api-key': ELEVENLABS_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: cleanText, model_id: 'eleven_turbo_v2_5', voice_settings: { stability: 0.5, similarity_boost: 0.75, speed: 1.1 } })
-    });
-    const blob = await resp.blob();
-    const url = URL.createObjectURL(blob);
-    currentAudio = new Audio(url);
-    if (btnEl) { btnEl.textContent = '⏹'; btnEl.disabled = false; }
-    currentAudio.play();
-    currentAudio.onended = () => {
-      URL.revokeObjectURL(url);
-      currentAudio = null;
-      if (currentBtn) { currentBtn.textContent = '🔊'; currentBtn.disabled = false; currentBtn = null; }
-    };
-  } catch(e) {
-    console.error('TTS error:', e);
-    if (btnEl) { btnEl.textContent = '🔊'; btnEl.disabled = false; }
-    currentBtn = null;
-  }
+async function speak(text, btnEl){ /* legacy, vervangen door playClip */ }
+function stopClip(){ if(currentAudio){currentAudio.pause();currentAudio=null;} if(currentBtn){currentBtn.textContent='\u{1F50A}';currentBtn.disabled=false;currentBtn=null;} }
+function playClip(id, btnEl){
+  if(currentAudio && currentBtn===btnEl){ stopClip(); return; }
+  stopClip();
+  currentBtn=btnEl; if(btnEl){ btnEl.textContent='\u23F3'; btnEl.disabled=true; }
+  const a=new Audio('audio/'+id+'.mp3'); currentAudio=a;
+  a.addEventListener('playing',()=>{ if(btnEl){ btnEl.textContent='\u23F9'; btnEl.disabled=false; } });
+  a.addEventListener('ended',stopClip);
+  a.addEventListener('error',()=>{ if(btnEl){ btnEl.textContent='\u{1F50A}'; btnEl.disabled=false; } currentBtn=null; currentAudio=null; });
+  a.play().catch(()=>{ if(btnEl){ btnEl.textContent='\u{1F50A}'; btnEl.disabled=false; } });
 }
-function speakQuestion() {
-  const q = state.session.questions[state.session.current];
-  if (q) speak(q.q, event.currentTarget);
-}
-function speakFeedback() {
-  const el = document.getElementById('feedbackText');
-  if (el) speak(el.innerText, event.currentTarget);
-}
-function speakTheory(catId, btnEl) {
-  const t = THEORY[catId];
-  if (!t) return;
-  const txt = stripHtml(t.title + '. ' + t.rules.join('. '));
-  speak(txt, btnEl || (typeof event !== 'undefined' ? event.currentTarget : null));
-}
+function speakQuestion(){ const q=state.session.questions[state.session.current]; const i=QUESTIONS.indexOf(q); if(i>=0) playClip('q'+i, event.currentTarget); }
+function speakFeedback(){ const q=state.session.questions[state.session.current]; const i=QUESTIONS.indexOf(q); if(i>=0) playClip('e'+i, event.currentTarget); }
+function speakTheory(catId, btnEl){ const key='t_'+catId.replace(/[^A-Za-z0-9]/g,''); playClip(key, btnEl || (typeof event!=='undefined'?event.currentTarget:null)); }
 
 // ============================================================
 // THEORY DATA
@@ -847,20 +812,20 @@ const QUESTIONS = [
    correct:1, explain:"Bij linksafslaan moet je tegemoetkomend verkeer dat rechtdoor rijdt laten gaan."},
   {cat:"Voorrang", q:"Je rijdt op een erftoegangweg en wilt de hoofdweg oprijden. Wat geldt?",
    opts:["Je hebt voorrang","Je moet voorrang verlenen","Je mag als er geen auto's zijn","Hoofdweg stopt voor jou"],
-   correct:1, explain:"Verkeer dat een erftoegangweg verlaat geeft altijd voorrang aan de hoofdweg."},
+   correct:1, explain:"Hier verleen je voorrang aan de hoofdweg. Let altijd op de borden en haaientanden: die bepalen wie voorrang heeft."},
   {cat:"Voorrang", q:"Op een kruising staat het licht op oranje. Wat doe je?",
    opts:["Versnellen om de kruising over te steken","Stoppen als dit veilig mogelijk is","Alleen stoppen bij politie","Doorrijden want oranje is geen verbod"],
    correct:1, explain:"Oranje = stop, tenzij stoppen niet meer veilig kan. Niet versnellen."},
   {cat:"Voorrang", q:"Een tram en een auto naderen dezelfde kruising. Wie heeft voorrang?",
    opts:["De auto, die was eerder","De tram heeft altijd voorrang tenzij anders aangegeven","Ze rijden gelijktijdig","Degene van rechts"],
-   correct:1, explain:"Trams hebben altijd voorrang op ander verkeer, ook van links."},
+   correct:1, explain:"Zonder verkeerslichten of borden heeft een tram voorrang, ook van links. Maar staan er verkeerslichten of voorrangsborden, dan gelden die ook voor de tram (rood = stoppen)."},
 
   {cat:"Snelheid", q:"Wat is de maximumsnelheid binnen de bebouwde kom?",
    opts:["30 km/u","50 km/u","70 km/u","80 km/u"],
    correct:1, explain:"Binnen bebouwde kom: standaard 50 km/u, tenzij bord anders aangeeft."},
   {cat:"Snelheid", q:"Wat is de maximumsnelheid op een autosnelweg?",
-   opts:["100 km/u","120 km/u","130 km/u","150 km/u"],
-   correct:2, explain:"Op autosnelwegen geldt maximaal 130 km/u, tenzij borden lager aangeven."},
+   opts:["100 km/u (overdag)","120 km/u","130 km/u (altijd)","150 km/u"],
+   correct:0, explain:"Sinds 2020 geldt overdag (06.00-19.00 u) standaard 100 km/u op de snelweg. 's Nachts mag 100, 120 of 130 km/u, maar alleen waar borden dat aangeven. Let dus altijd op de borden."},
   {cat:"Snelheid", q:"Wat is de maximumsnelheid op een autoweg buiten de bebouwde kom?",
    opts:["80 km/u","100 km/u","120 km/u","130 km/u"],
    correct:1, explain:"Op autowegen (blauw bord met auto) is de maximumsnelheid 100 km/u."},
@@ -877,7 +842,7 @@ const QUESTIONS = [
   {cat:"Verkeersborden", q:"Wat betekent een rond blauw bord met een pijl omhoog?",
    opts:["Eenrichtingsverkeer","Verplichte rijrichting rechtdoor","Verbod om te stoppen","Aanbevolen rijrichting"],
    correct:1, explain:"Blauw rond bord met pijl = gebodsbord. Pijl omhoog = verplicht rechtdoor."},
-  {cat:"Verkeersbonden", q:"Wat betekent een driehoekig bord met rode rand en uitroepteken?",
+  {cat:"Verkeersborden", q:"Wat betekent een driehoekig bord met rode rand en uitroepteken?",
    opts:["Stop, gevaar","Algemeen gevaar, wees voorzichtig","Verboden doorgang","Werk in uitvoering"],
    correct:1, explain:"Driehoek rode rand = waarschuwing. Uitroepteken = algemeen gevaar."},
   {cat:"Verkeersborden", q:"Wat is het verschil tussen een stopbord en haaientanden?",
@@ -889,7 +854,7 @@ const QUESTIONS = [
   {cat:"Verkeersborden", q:"Een geel diamantvormig bord betekent:",
    opts:["Gevaarlijke kruising","Je rijdt op een voorrangsweg","Werk in uitvoering","Gevaarlijke bocht"],
    correct:1, explain:"Gele ruit = voorrangsweg. Jij hebt voorrang op kruisingen."},
-  {cat:"Verkeersbonden", q:"Een bord met rode rand en doorgestreepte vrachtwagen betekent:",
+  {cat:"Verkeersborden", q:"Een bord met rode rand en doorgestreepte vrachtwagen betekent:",
    opts:["Parkeerverbod vrachtwagens","Vrachtwagens mogen hier niet rijden","Vrachtwagens hebben voorrang","Maximumgewicht"],
    correct:1, explain:"Doorgestreept symbool op verbodsbord = dat voertuig mag er niet."},
 
@@ -898,7 +863,7 @@ const QUESTIONS = [
    correct:1, explain:"Doorgetrokken middenstreep = inhalen verboden. Mag die streep niet overschrijden."},
   {cat:"Inhalen", q:"Je wilt een fietser inhalen. Minimale zijdelingse afstand?",
    opts:["50 cm","1 meter","1,5 meter","2 meter"],
-   correct:2, explain:"Bij inhalen van fietsers en bromfietsers: minimaal 1,5 meter zijdelingse afstand."},
+   correct:2, explain:"Bij inhalen van fietsers en bromfietsers: minimaal 1,5 meter zijdelingse afstand binnen de bebouwde kom; buiten de kom ruim 2 meter."},
   {cat:"Inhalen", q:"Wanneer mag je rechts inhalen?",
    opts:["Altijd als de weg vrij is","Nooit","Als het voertuig voor je linksaf gaat","Alleen met knipperlicht"],
    correct:2, explain:"Rechts inhalen is verboden, maar toegestaan als het voertuig voor je linksaf gaat."},
@@ -908,7 +873,7 @@ const QUESTIONS = [
 
   {cat:"Lichten", q:"Wanneer moet je dimlichten voeren?",
    opts:["Alleen 's nachts","Altijd als je rijdt, ook overdag","Alleen bij mist","Alleen buiten bebouwde kom"],
-   correct:1, explain:"Dimlichten zijn verplicht bij elk motorvoertuig in beweging, overdag én 's nachts."},
+   correct:1, explain:"Rijdende auto's voeren altijd licht: overdag dagrijverlichting of dimlicht, 's nachts en bij slecht zicht is dimlicht verplicht."},
   {cat:"Lichten", q:"Wanneer gebruik je groot licht?",
    opts:["Altijd 's nachts","Als er geen tegenliggers of voorliggers zijn","Nooit, dimlicht is genoeg","Alleen op snelwegen"],
    correct:1, explain:"Groot licht gebruik je als er geen andere gebruikers zijn die je zou verblinden."},
@@ -917,7 +882,7 @@ const QUESTIONS = [
    correct:1, explain:"Mistachterlicht alleen bij zicht korter dan 50 meter. Bij beter zicht is het verboden."},
   {cat:"Lichten", q:"Stadslichten gebruiken in plaats van dimlichten: wanneer?",
    opts:["Altijd in bebouwde kom","Nooit","Op goed verlichte wegen in bebouwde kom","Bij minder dan 50m zicht"],
-   correct:2, explain:"Op goed verlichte wegen binnen bebouwde kom mogen stadslichten. Buiten: dimlicht verplicht."},
+   correct:2, explain:"Op goed verlichte wegen binnen de bebouwde kom mag het met stadslicht, maar dimlicht is altijd toegestaan en bij slecht zicht of in het donker verplicht. Twijfel je? Kies dimlicht."},
 
   {cat:"Afstand", q:"Wat is de vuistregel voor veilige volgafstand?",
    opts:["Minimaal 10 meter","De afstand die je in 2 seconden aflegt","Minimaal 50 meter","1 seconde afstand"],
@@ -1012,9 +977,9 @@ const QUESTIONS = [
   {cat:"Gevaarherkenning", q:"Je rijdt in een bos met veel bochten. Grootste gevaar?",
    opts:["Vallende takken","Beperkt zicht in bochten en wild op de weg","Glad door bladeren","Onverharde bermen"],
    correct:1, explain:"Beperkt zicht + wild (herten, zwijnen) op de weg. Rijdt voorzichtiger dan de limiet vereist."},
-  {cat:"Gevaarherkenning", q:"Je rijdt achter een schoolbus met knipperende gele lichten. Wat doe je?",
-   opts:["Rustig langs rijden","Stoppen achter de bus tot gele lichten uit zijn","Inhalen als geen kinderen zichtbaar","Claxonneren"],
-   correct:1, explain:"Gele knipperlichten schoolbus = kinderen in/uitstappen. Wacht tot situatie veilig is."},
+  {cat:"Gevaarherkenning", q:"Binnen de bebouwde kom staat een lijnbus bij een halte en geeft richting aan om weg te rijden. Wat doe je?",
+   opts:["Doorrijden, jij hebt voorrang","Snelheid minderen en de bus voor laten gaan","Claxonneren","Links inhalen"],
+   correct:1, explain:"Binnen de bebouwde kom moet je een lijnbus die vanaf een halte wegrijdt voor laten gaan (art. 54a RVV). Anticipeer: minder snelheid en geef ruimte."},
 
   {cat:"Regels", q:"Hoe lang is rijbewijs B geldig in Nederland?",
    opts:["5 jaar","10 jaar","Tot je 70e","Onbeperkt"],
@@ -1031,9 +996,9 @@ const QUESTIONS = [
   {cat:"Regels", q:"Rijden met een ingetrokken rijbewijs is:",
    opts:["Alleen bestuursrechtelijk","Een strafbaar feit","Toegestaan als je naar je werk moet","Niet strafbaar als je voorzichtig rijdt"],
    correct:1, explain:"Rijden met ongeldig rijbewijs is een strafbaar feit. Je kunt vervolgd worden."},
-  {cat:"Regels", q:"Welke medicijnen beÃ¯nvloeden de rijvaardigheid?",
+  {cat:"Regels", q:"Welke medicijnen beïnvloeden de rijvaardigheid?",
    opts:["Geen enkel medicijn","Alleen niet-voorgeschreven medicijnen","Sommige, zoals slaappillen en antihistaminica","Alleen bij overdosis"],
-   correct:2, explain:"Slaappillen, antihistaminica en sommige pijnstillers beÃ¯nvloeden het rijgedrag. Check de bijsluiter."}
+   correct:2, explain:"Slaappillen, antihistaminica en sommige pijnstillers beïnvloeden het rijgedrag. Check de bijsluiter."}
 ];
 
 // ============================================================
