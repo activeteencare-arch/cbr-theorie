@@ -468,9 +468,54 @@ function vraagBody(q, pick){
   return `<div id="opts">${q.opties.map((o,k)=>`<button class="opt" onclick="${pick}(${k})">${esc(o)}</button>`).join('')}</div>`;
 }
 function toggleSel(k,el){ if(el.classList.contains('locked'))return; const i=SEL.indexOf(k); if(i<0){SEL.push(k);el.classList.add('sel');}else{SEL.splice(i,1);el.classList.remove('sel');} }
+/* ---- invul-vergelijking met dyslexie-coulance ----
+   normaliseren: kleine letters, accenten/diakrieten weg, eenheden weg, leestekens weg,
+   dubbele/voor-na-spaties weg. Getallen blijven exact (geen typetolerantie).
+   Bij tekst langer dan 4 tekens: Levenshtein-afstand 1 (en 2 vanaf 8 tekens) telt als goed,
+   zodat een net-andere spelling van het bedoelde woord goed gerekend wordt, maar een
+   ander woord/getal fout blijft. */
+function invulNorm(s){
+  return String(s==null?'':s)
+    .toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')        // accenten/diakrieten weg
+    .replace(/km\/u|km\/h|meter|\bmm\b|\bm\b/g,'')           // eenheden weg (zoals voorheen)
+    .replace(/\./g,',')                                      // decimaalpunt -> komma
+    .replace(/[^\p{L}\p{N},]+/gu,' ')                        // leestekens weg, rest naar spatie
+    .replace(/\s+/g,' ')                                     // dubbele spaties weg
+    .trim();
+}
+function levenshtein(a,b){
+  const m=a.length, n=b.length;
+  if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,j)=>j), cur=new Array(n+1);
+  for(let i=1;i<=m;i++){ cur[0]=i;
+    for(let j=1;j<=n;j++){ const cost=a[i-1]===b[j-1]?0:1; cur[j]=Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+cost); }
+    [prev,cur]=[cur,prev];
+  }
+  return prev[n];
+}
+/* geeft 'exact', 'coulant' (goed, maar net anders gespeld) of 'fout' */
+function invulMatch(given,correct){
+  const g=invulNorm(given), c=invulNorm(correct);
+  if(!c) return g===c?'exact':'fout';
+  if(g===c) return 'exact';
+  // getallen: exact vereist (na opmaaknormalisatie), geen typetolerantie
+  if(invulGetalCorrect(correct)) return 'fout';
+  // typetolerantie alleen voor tekst langer dan ~4 tekens
+  if(c.length>4){
+    const allow = c.length>=8 ? 2 : 1;
+    if(levenshtein(g,c)<=allow) return 'coulant';
+  }
+  return 'fout';
+}
+/* getal-check op het correcte antwoord, los van eenheden/spaties */
+function invulGetalCorrect(correct){
+  const c=invulNorm(correct).replace(/\s/g,'');
+  return /^[\d,]+$/.test(c) && /\d/.test(c);
+}
 function evalQ(q,given){
   if(q.type==='multi'){ const a=[...given].sort((x,y)=>x-y), b=[...q.correct].sort((x,y)=>x-y); return a.length===b.length&&a.every((x,i)=>x===b[i]); }
-  if(q.type==='invul'){ const norm=s=>String(s).toLowerCase().replace(/km\/u|km\/h|meter|\bmm\b|\bm\b/g,'').replace(/\./g,',').replace(/\s/g,'').trim(); return norm(given)===norm(q.correct); }
+  if(q.type==='invul'){ return invulMatch(given,q.correct)!=='fout'; }
   return given===q.correct;
 }
 function markQ(q,given){
@@ -481,7 +526,14 @@ function markQ(q,given){
     if(giv.includes(idx)&&!cor.includes(idx)){el.classList.remove('dimmed');el.classList.add('bad');}});
 }
 function goedAntwoord(q){ if(q.type==='invul')return q.correct; if(q.type==='multi')return q.correct.map(i=>q.opties[i]).join(', '); return q.opties[q.correct]; }
-function fbBlock(q,ok){ const strip=bordenStrip((q.vraag||'')+' '+(q.uitleg||''), q.opties); return `<div class="fb ${ok?'ok':'no'}"><div class="h"><i class="ti ti-${ok?'circle-check':'alert-circle'}"></i>${ok?'Goed gedaan':'Geen punt, hier leer je van'}</div>${esc(q.uitleg)}<div class="bron" style="margin-top:9px">${esc(q.bron)}</div>${strip}</div>`; }
+function fbBlock(q,ok,given){
+  const strip=bordenStrip((q.vraag||'')+' '+(q.uitleg||''), q.opties);
+  let spelnoot='';
+  if(ok && q.type==='invul' && given!==undefined && invulMatch(given,q.correct)==='coulant'){
+    spelnoot=`<div style="margin-bottom:7px;color:var(--good)">Goed, de spelling reken ik niet streng. Je bedoelde het juiste antwoord<span style="color:var(--muted)"> (${esc(q.correct)})</span>.</div>`;
+  }
+  return `<div class="fb ${ok?'ok':'no'}"><div class="h"><i class="ti ti-${ok?'circle-check':'alert-circle'}"></i>${ok?'Goed gedaan':'Geen punt, hier leer je van'}</div>${spelnoot}${esc(q.uitleg)}<div class="bron" style="margin-top:9px">${esc(q.bron)}</div>${strip}</div>`;
+}
 
 let Q={};
 function quiz(list,titel){ Q={list,titel,i:0,answered:false}; quizStep(); }
@@ -507,7 +559,7 @@ function answer(given){
   else { Q.streak=(Q.streak||0)+1; }
   P.gedaan=P.gedaan||{}; P.gedaan[qid(q)]=1; saveP();
   const streakHtml = (ok && Q.streak>=2) ? `<div style="text-align:center;margin:2px 0 12px"><span class="streak"><i class="ti ti-flame"></i> ${Q.streak} op rij goed</span></div>` : '';
-  document.getElementById('fbslot').innerHTML=streakHtml+fbBlock(q,ok)
+  document.getElementById('fbslot').innerHTML=streakHtml+fbBlock(q,ok,given)
    +`<button class="tbtn lesbtn" style="margin-bottom:11px" onclick="oefenCoach(${JSON.stringify(q._scene?q._scene.narratie+' '+q.vraag:q.vraag).replace(/"/g,'&quot;')}, ${JSON.stringify(q.uitleg).replace(/"/g,'&quot;')}, this)"><i class="ti ti-player-play"></i> Start de uitleg</button>`
    +`<button class="pbtn" onclick="nextQ()">${Q.i<Q.list.length-1?'Volgende vraag':'Klaar'}</button>`;
 }
@@ -577,7 +629,7 @@ function examAnswer(given){
     document.getElementById('fbslot').innerHTML=`<button class="pbtn" onclick="examNext()">${last?'Bekijk uitslag':'Volgende'}</button>`;
   } else {
     markQ(q,given);
-    document.getElementById('fbslot').innerHTML=fbBlock(q,ok)+`<button class="pbtn" onclick="examNext()">${last?'Bekijk uitslag':'Volgende'}</button>`;
+    document.getElementById('fbslot').innerHTML=fbBlock(q,ok,given)+`<button class="pbtn" onclick="examNext()">${last?'Bekijk uitslag':'Volgende'}</button>`;
   }
 }
 function examNext(){ stopAudio(); if(coachConv)stopCoach(); if(EX.i<EX.list.length-1){EX.i++;EX.answered=false;examStep();window.scrollTo(0,0);} else examResult(); }
