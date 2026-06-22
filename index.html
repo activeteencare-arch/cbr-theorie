@@ -779,10 +779,10 @@ async function stopCoach(){
 async function startCoach(opening, topic, ui){
   coachUI = ui; besprokenNu = topic||null; ui('connecting');
   try{
-    const { Conversation } = await import('https://esm.sh/@elevenlabs/client');
+    const { Conversation } = await import('https://esm.sh/@elevenlabs/client@1.12.0');
     coachConv = await Conversation.startSession({
       agentId:'agent_6801kv3dsj3xfh0sr08k806tvs9r',
-      connectionType:'webrtc',
+      connectionType:'websocket',
       dynamicVariables:{ voortgang: voortgangSamenvatting(), opening: opening },
       onModeChange:({mode})=>{ const s=(mode==='speaking')?'speaking':'listening'; if(coachConv)coachConv._mode=s; if(coachUI)coachUI(s); },
       onStatusChange:({status})=>{ if(status==='disconnected'){ coachConv=null; logBesproken(); if(coachUI)coachUI('stopped'); } },
