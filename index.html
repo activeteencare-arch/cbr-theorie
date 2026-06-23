@@ -342,7 +342,7 @@ async function speak(text,btn){
     if(!r.ok) throw 0;
     const b=await r.blob();
     audio=new Audio(URL.createObjectURL(b));
-    audio.preservesPitch=true; audio.playbackRate=1.15;
+    audio.preservesPitch=true; audio.playbackRate=1.10;
     audio.onended=()=>{ audio=null; if(audioBtn){ audioBtn.innerHTML=audioBtn._orig; audioBtn=null; } };
     await audio.play();
     if(btn) btn.innerHTML='<i class="ti ti-player-stop"></i> Stop';
