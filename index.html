@@ -342,6 +342,7 @@ async function speak(text,btn){
     if(!r.ok) throw 0;
     const b=await r.blob();
     audio=new Audio(URL.createObjectURL(b));
+    audio.preservesPitch=true; audio.playbackRate=1.15;
     audio.onended=()=>{ audio=null; if(audioBtn){ audioBtn.innerHTML=audioBtn._orig; audioBtn=null; } };
     await audio.play();
     if(btn) btn.innerHTML='<i class="ti ti-player-stop"></i> Stop';
@@ -776,14 +777,14 @@ async function stopCoach(){
   if(coachConv){ try{await coachConv.endSession()}catch(e){} }
   coachConv=null; logBesproken(); if(coachUI) coachUI('stopped');
 }
-async function startCoach(opening, topic, ui){
+async function startCoach(opening, topic, ui, lesstof){
   coachUI = ui; besprokenNu = topic||null; ui('connecting');
   try{
     const { Conversation } = await import('https://esm.sh/@elevenlabs/client@1.12.0');
     coachConv = await Conversation.startSession({
       agentId:'agent_6801kv3dsj3xfh0sr08k806tvs9r',
       connectionType:'websocket',
-      dynamicVariables:{ voortgang: voortgangSamenvatting(), opening: opening },
+      dynamicVariables:{ voortgang: voortgangSamenvatting(), opening: opening, lesstof: lesstof||'' },
       onModeChange:({mode})=>{ const s=(mode==='speaking')?'speaking':'listening'; if(coachConv)coachConv._mode=s; if(coachUI)coachUI(s); },
       onStatusChange:({status})=>{ if(status==='disconnected'){ coachConv=null; logBesproken(); if(coachUI)coachUI('stopped'); } },
       onError:()=>{ coachConv=null; if(coachUI)coachUI('error'); }
@@ -800,8 +801,9 @@ function toggleCoach(){
 function lesToggle(kop, tekst, kern, btn){
   if(coachConv){ stopCoach(); return; }
   const kernTxt = (Array.isArray(kern)&&kern.length) ? ` Even de kern op een rij. ${kern.join('. ')}.` : '';
-  const opening = `${kop}. ${tekst}${kernTxt} Nu een korte controlevraag, zodat we zeker weten dat het blijft hangen. Vertel eens in je eigen woorden terug wat je hier net van hebt opgepikt.`;
-  startCoach(opening, kop, (state)=>lesBtnUI(btn, state));
+  const lesstof = `${kop}. ${tekst}${kernTxt}`;
+  const opening = `We hebben het hier over ${kop}. Wil je dat ik iets uitleg, of waar loop je tegenaan? Stel maar een vraag.`;
+  startCoach(opening, kop, (state)=>lesBtnUI(btn, state), lesstof);
 }
 function lesBtnUI(btn, state, startLabel){
   if(!btn||!btn.isConnected) return;
